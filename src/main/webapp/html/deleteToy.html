@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Toy page</title>
+	</head>
+<body>
+	<form action="../ToyController" method="POST">
+		<input type="hidden" name="action" value="deleteToy">
+		<table border="1">
+			<tr>
+				<th colspan="2"> <h1>Toy delete</h1> </th>
+			</tr>
+			<tr>
+				<td>Toy code:</td>
+				<td><input type="number" name="toy_code" size="60" placeholder="Type a code" required></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" value="Submit"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
