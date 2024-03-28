@@ -22,6 +22,7 @@
 		</tr>
 		<%
 		List<Toy> list = (ArrayList) request.getAttribute("toyList");
+		String message = (String) request.getAttribute("message");
 		for (Toy toy : list) {
 		%>
 			<tr>
@@ -39,5 +40,13 @@
 			<th colspan="6"> <a href="index.html">Main page</a> </th>
 		</tr>
 	</table>
+	
+	<p>
+	    <% 
+		if (!(message == null)) {
+			out.print(message);
+		}
+		%>
+	</p>
 </body>
 </html>

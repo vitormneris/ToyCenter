@@ -20,6 +20,7 @@
 		</tr>
 		<%
 		Toy toy = (Toy) request.getAttribute("toy");
+		String message = (String) request.getAttribute("message");
 		%>
 			<tr>
 				<td><%= toy.getToyCode() %></td>
@@ -33,5 +34,13 @@
 			<th colspan="6"> <a href="index.html">Main page</a> </th>
 		</tr>
 	</table>
+	
+	<p> 
+		<% 
+		if (!(message == null)) {
+			out.print(message);
+		}
+		%>
+	</p>
 </body>
 </html>

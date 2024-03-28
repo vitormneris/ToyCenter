@@ -79,7 +79,7 @@ public class ToyDAO {
 		}
 	}
 
-	public void insertToy(Toy toy) throws Exception {
+	public Boolean insertToy(Toy toy) throws Exception {
 		if (toy == null)
 			throw new Exception("The value don't can be null");
 		try {
@@ -95,7 +95,11 @@ public class ToyDAO {
 			ps.setString(5, toy.getToyDescription());
 			ps.setString(6, toy.getToyDetails());
 			
-			ps.executeUpdate();
+			if (ps.executeUpdate() > 0) {
+				return true;
+			} else {
+				return false;
+			} 
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -105,9 +109,10 @@ public class ToyDAO {
 		}
 	}
 	
-	public void updateToy(Toy toy) throws Exception {
-		if (toy == null)
+	public Boolean updateToy(Toy toy) throws Exception {
+		if (toy == null) {
 			throw new Exception("The value don't can be null");
+		}
 		try {
 			String SQL = "UPDATE toy_table "
 				   	   + "SET toy_image = ?, toy_name = ?, toy_price = ?, toy_description = ?, toy_details = ? "
@@ -121,7 +126,11 @@ public class ToyDAO {
 			ps.setString(5, toy.getToyDetails());
 			ps.setInt(6, toy.getToyCode());
 				
-			ps.executeUpdate();
+			if (ps.executeUpdate() > 0) {
+				return true;
+			} else {
+				return false;
+			} 
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -131,15 +140,17 @@ public class ToyDAO {
 		}
 	}
 	
-	public void deleteToy(Toy toy) throws Exception {
-		if (toy == null)
-			throw new Exception("The value don't can be null");
+	public Boolean deleteToy(Toy toy) throws Exception {
 		try {
 			String SQL = "DELETE FROM toy_table WHERE toy_code = ?";
 			ps = conn.prepareStatement(SQL);
 			ps.setInt(1, toy.getToyCode());
 			
-			ps.executeUpdate();
+			if (ps.executeUpdate() > 0) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
