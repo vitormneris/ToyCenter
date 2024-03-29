@@ -6,7 +6,7 @@
 		<title>Toy page</title>
 	</head>
 <body>
-	<form action="../ToyController" method="POST">
+	<form action="../ToyController" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="action" value="insertToy">
 		<table border="1">
 			<tr>
@@ -18,7 +18,7 @@
 			</tr>
 			<tr>
 				<td>Image:</td>
-				<td> <input type="text" name="toy_image" size="150" placeholder="Type a image" required> </td>
+				<td> <input type="file" name="toy_image" required> </td>
 			</tr>
 			<tr>
 				<td>Name:</td>

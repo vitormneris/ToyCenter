@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Toy list</title>
 	</head>
 <body>
@@ -24,7 +26,7 @@
 		%>
 			<tr>
 				<td><%= toy.getToyCode() %></td>
-				<td><%= toy.getToyImage() %></td>
+				<td><img src="<%= toy.getToyImage() %>" width="400px" height="400px"></td>
 				<td><%= toy.getToyName() %></td>
 				<td><%= toy.getToyPrice() %></td>
 				<td><%= toy.getToyDescription() %></td>
@@ -35,12 +37,6 @@
 		</tr>
 	</table>
 	
-	<p> 
-		<% 
-		if (!(message == null)) {
-			out.print(message);
-		}
-		%>
-	</p>
+	<p> <% if (!(message == null)) out.print(message); %> </p>
 </body>
 </html>

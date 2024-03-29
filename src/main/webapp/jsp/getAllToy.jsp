@@ -5,12 +5,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Toy list</title>
 	</head>
 <body>
 	<table width="60%" border="1">
 		<tr>
-			<th colspan="6"> <h1>Toy list</h1> </th>
+			<th colspan="7"> <h1>Toy list</h1> </th>
 		</tr>
 		<tr>
 			<th>Toy Code</th>
@@ -19,6 +21,7 @@
 			<th>Toy Price</th>
 			<th>Toy Description</th>
 			<th>Toy Details</th>
+			<th>Toy operations</th>
 		</tr>
 		<%
 		List<Toy> list = (ArrayList) request.getAttribute("toyList");
@@ -27,26 +30,24 @@
 		%>
 			<tr>
 				<td><%= toy.getToyCode() %></td>
-				<td><%= toy.getToyImage() %></td>
+				<td><img src="<%= toy.getToyImage() %>" width="100px" height="100px"></td>
 				<td><%= toy.getToyName() %></td>
 				<td><%= toy.getToyPrice() %></td>
 				<td><%= toy.getToyDescription() %></td>
 				<td><%= toy.getToyDetails() %></td>
+				<td>
+					<a href="ToyController?action=deleteToy&toy_code=<%= toy.getToyCode() %>">Delete</a>
+				    <a href="ToyController?action=updateToy&toy_code=<%= toy.getToyCode() %>">Update</a>
+				</td>
 			</tr>
 		<%
 		}
 		%>
 		<tr>
-			<th colspan="6"> <a href="index.html">Main page</a> </th>
+			<th colspan="7"> <a href="index.html">Main page</a> </th>
 		</tr>
 	</table>
 	
-	<p>
-	    <% 
-		if (!(message == null)) {
-			out.print(message);
-		}
-		%>
-	</p>
+	<p> <% if (!(message == null)) out.print(message); %> </p>
 </body>
 </html>
