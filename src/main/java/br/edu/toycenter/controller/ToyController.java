@@ -71,8 +71,14 @@ public class ToyController extends HttpServlet {
     		throws ServletException, IOException, Exception {
 		ToyDAO td = new ToyDAO();
 		List<Toy> list = td.getAllToy();
-		request.setAttribute("toyList", list);
-    	forwardToPage(request, response, "jsp/getAllToy.jsp");
+		
+		if (list != null) {
+			request.setAttribute("toyList", list);
+	    	forwardToPage(request, response, "jsp/getAllToy.jsp");
+		} else {
+	    	request.setAttribute("message", "Toys not found");
+        	forwardToPage(request, response, "jsp/error.jsp");
+		}
 	}
 	
 	private void getOneToy(HttpServletRequest request, HttpServletResponse response) 
@@ -80,8 +86,14 @@ public class ToyController extends HttpServlet {
 		ToyDAO td = new ToyDAO();
 		Toy toy = new Toy(Integer.parseInt(request.getParameter("toy_code")));
 		toy = td.getOneToy(toy);
-		request.setAttribute("toy", toy);
-    	forwardToPage(request, response, "jsp/getOneToy.jsp");
+		
+		if (toy != null) {
+			request.setAttribute("toy", toy);
+	    	forwardToPage(request, response, "jsp/getOneToy.jsp");
+		} else {
+	    	request.setAttribute("message", "Toy not found");
+        	forwardToPage(request, response, "jsp/error.jsp");
+		}
 	}
 	
 	private void insertToy(HttpServletRequest request, HttpServletResponse response)
@@ -106,7 +118,7 @@ public class ToyController extends HttpServlet {
 		if (td.updateToy(toy)) {
 	    	request.setAttribute("message", "Toy updated sucessfully");
 		} else {
-	    	request.setAttribute("message", "Toy not found");
+	    	request.setAttribute("message", "Unable to update toy");
 		}
     	
 		getOneToy(request, response);
@@ -120,8 +132,9 @@ public class ToyController extends HttpServlet {
 		if (td.deleteToy(toy)) {
 	    	request.setAttribute("message", "Toy deleted sucessfully");
 		} else {
-	    	request.setAttribute("message", "Toy not found");
+	    	request.setAttribute("message", "Unable to delete toy");
 		}
+		
 		getAllToy(request, response);
 	}
 	

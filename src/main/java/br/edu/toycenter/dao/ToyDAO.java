@@ -14,7 +14,6 @@ public class ToyDAO {
 	private Connection conn; 
 	private PreparedStatement ps; 
 	private ResultSet rs; 
-	private Toy toy;
 
 	public ToyDAO() throws Exception {
 		try {
@@ -28,11 +27,11 @@ public class ToyDAO {
 	
 	public Toy getOneToy(Toy toy) throws Exception {
 		try {
-			
 			ps = conn.prepareStatement("SELECT * FROM toy_table WHERE toy_code = ?");
 			ps.setInt(1, toy.getToyCode());
 			rs = ps.executeQuery();
-			
+			boolean toyStatus = false;
+
 			while (rs.next()) {
 				int toycode = rs.getInt("toy_code");
 				String image = rs.getString("toy_image");
@@ -40,9 +39,15 @@ public class ToyDAO {
 				float price = rs.getFloat("toy_price");
 				String description = rs.getString("toy_description");
 				String details = rs.getString("toy_details");
-				this.toy = new Toy(toycode, image, name, price, description, details);
+				toy = new Toy(toycode, image, name, price, description, details);
+				toyStatus = true;
 			}
-			return this.toy;
+			
+			if (!toyStatus) {
+				return null;
+			}
+			
+			return toy;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -56,19 +61,24 @@ public class ToyDAO {
 		try {
 			ps = conn.prepareStatement("SELECT * FROM toy_table");
 			rs = ps.executeQuery();
-			List<Toy> list = new ArrayList<Toy>();
-			
+			List<Toy> list = new ArrayList<>();
+			boolean toyStatus = false;
+
 			while (rs.next()) {
-				
 				int toycode = rs.getInt("toy_code");
 				String image = rs.getString("toy_image");
 				String name = rs.getString("toy_name");
 				float price = rs.getFloat("toy_price");
 				String description = rs.getString("toy_description");
 				String details = rs.getString("toy_details");
-				
 				list.add(new Toy(toycode, image, name, price, description, details));
+				toyStatus = true;
 			}
+			
+			if (!toyStatus) {
+				return null;
+			}
+			
 			return list;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
@@ -159,4 +169,6 @@ public class ToyDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
+	
+	
 }
