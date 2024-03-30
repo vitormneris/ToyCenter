@@ -156,6 +156,7 @@ public class ToyController extends HttpServlet {
 			toy.setToyCode(Integer.parseInt(request.getParameter("toy_code")));
 			toy.setToyImage(uploadImage(request, response));			
 			toy.setToyName(request.getParameter("toy_name"));
+			toy.setToyBrand(request.getParameter("toy_brand"));
 			toy.setToyPrice(Float.parseFloat(request.getParameter("toy_price")));
 			toy.setToyDescription(request.getParameter("toy_description"));
 			toy.setToyDetails(request.getParameter("toy_details"));		

@@ -25,6 +25,10 @@
 				<td><input type="text" size="150" name="toy_name" value="<%=toy.getToyName()%>" required></td>
 			</tr>
 			<tr>
+				<td>Toy brand:</td>
+				<td> <input type="text" name="toy_brand" size="150" value="<%=toy.getToyBrand()%>" placeholder="Type a brand" required> </td>
+			</tr>
+			<tr>
 				<td>Toy price</td>
 				<td><input type="number" min="0" step="0.01" name="toy_price" value="<%=toy.getToyPrice()%>" required></td>
 			</tr>

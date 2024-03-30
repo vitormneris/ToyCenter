@@ -4,9 +4,11 @@ public class Toy {
 	private int toyCode;
 	private String toyImage;
 	private String toyName;
+	private String toyBrand;
 	private float toyPrice;
 	private String toyDescription;
 	private String toyDetails;
+
 
 	public Toy() {
 		super();
@@ -17,11 +19,12 @@ public class Toy {
 		this.toyCode = toyCode;
 	}
 
-	public Toy(int toyCode, String toyImage, String toyName, float toyPrice, String toyDescription, String toyDetails) {
+	public Toy(int toyCode, String toyImage, String toyName, String toyBrand, float toyPrice, String toyDescription, String toyDetails) {
 		super();
 		this.toyCode = toyCode;
 		this.toyImage = toyImage;
 		this.toyName = toyName;
+		this.toyBrand = toyBrand;
 		this.toyPrice = toyPrice;
 		this.toyDescription = toyDescription;
 		this.toyDetails = toyDetails;
@@ -51,6 +54,14 @@ public class Toy {
 		this.toyName = toyName;
 	}
 
+	public String getToyBrand() {
+		return toyBrand;
+	}
+
+	public void setToyBrand(String toyBrand) {
+		this.toyBrand = toyBrand;
+	}
+
 	public float getToyPrice() {
 		return toyPrice;
 	}
@@ -77,7 +88,7 @@ public class Toy {
 
 	@Override
 	public String toString() {
-		return "Toy [toyCode=" + toyCode + ", toyImage=" + toyImage + ", toyName=" + toyName +
-			   ", toyPrice=" + toyPrice + ", toyDescription=" + toyDescription + ", toyDetails=" + toyDetails + "]";
+		return "Toy [toyCode=" + toyCode + ", toyImage=" + toyImage + ", toyName=" + toyName + ", toyBrand=" + toyBrand
+				+ ", toyPrice=" + toyPrice + ", toyDescription=" + toyDescription + ", toyDetails=" + toyDetails + "]";
 	}
 }

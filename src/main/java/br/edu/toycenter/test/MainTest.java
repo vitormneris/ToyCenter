@@ -21,7 +21,7 @@ public class MainTest {
 			System.out.print(e);
 		}
 		
-		Toy toy = new Toy(1243, "urlimagem", "nomeproduto", 123.00f, "um produto chique", "produto pequeno"); 
+		Toy toy = new Toy(1243, "urlimagem", "nomeproduto", "marca", 123.00f, "um produto chique", "produto pequeno"); 
 		
 		try {
 			ToyDAO toydao = new ToyDAO();
@@ -33,7 +33,7 @@ public class MainTest {
 			System.out.print(e);
 		}
 		
-		toy = new Toy(1142, "urlimagem1", "nomeproduto1", 123.40f, "um produto chique1", "produto pequeno1"); 
+		toy = new Toy(1142, "urlimagem1", "nomeproduto1", "marca1", 123.40f, "um produto chique1", "produto pequeno1"); 
 		
 		try {
 			ToyDAO toydao = new ToyDAO();
