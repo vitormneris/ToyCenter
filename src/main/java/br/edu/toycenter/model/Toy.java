@@ -1,5 +1,8 @@
 package br.edu.toycenter.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Toy {
 	private int toyCode;
 	private String toyImage;
@@ -8,7 +11,8 @@ public class Toy {
 	private float toyPrice;
 	private String toyDescription;
 	private String toyDetails;
-
+	
+	private List<Category> toyCategories = new ArrayList<>();
 
 	public Toy() {
 		super();
@@ -19,7 +23,8 @@ public class Toy {
 		this.toyCode = toyCode;
 	}
 
-	public Toy(int toyCode, String toyImage, String toyName, String toyBrand, float toyPrice, String toyDescription, String toyDetails) {
+	public Toy(int toyCode, String toyImage, String toyName, String toyBrand, float toyPrice,
+			String toyDescription, String toyDetails, List<Category> toyCategories) {
 		super();
 		this.toyCode = toyCode;
 		this.toyImage = toyImage;
@@ -28,6 +33,7 @@ public class Toy {
 		this.toyPrice = toyPrice;
 		this.toyDescription = toyDescription;
 		this.toyDetails = toyDetails;
+		this.toyCategories = toyCategories;
 	}
 
 	public int getToyCode() {
@@ -86,9 +92,23 @@ public class Toy {
 		this.toyDetails = toyDetails;
 	}
 
+	public List<Category> getToyCategories() {
+		return toyCategories;
+	}
+	
+	public void addCategory(Category category) {
+		toyCategories.add(category);
+	}
+	
+	public boolean typeVerify(Object obj) {
+		if (obj instanceof Toy) return true;
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		return "Toy [toyCode=" + toyCode + ", toyImage=" + toyImage + ", toyName=" + toyName + ", toyBrand=" + toyBrand
-				+ ", toyPrice=" + toyPrice + ", toyDescription=" + toyDescription + ", toyDetails=" + toyDetails + "]";
+				+ ", toyPrice=" + toyPrice + ", toyDescription=" + toyDescription + ", toyDetails=" + toyDetails
+				+ ", categories=" + toyCategories + "]";
 	}
 }
