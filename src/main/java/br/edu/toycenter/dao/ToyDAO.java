@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.toycenter.model.Category;
 import br.edu.toycenter.model.Toy;
 import br.edu.toycenter.util.ConnectionFactory;
 
@@ -25,11 +26,12 @@ public class ToyDAO {
 		}
 	}
 	
-	public Toy getOneToy(Toy toy) throws Exception {
+	public List<Toy> getAllToy() throws Exception {
 		try {
-			ps = conn.prepareStatement("SELECT * FROM toy_table WHERE toy_code = ?");
-			ps.setInt(1, toy.getToyCode());
+			ps = conn.prepareStatement("SELECT * FROM toy_table");
 			rs = ps.executeQuery();
+			List<Toy> list = new ArrayList<>();
+			ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
 			boolean toyStatus = false;
 
 			while (rs.next()) {
@@ -40,15 +42,14 @@ public class ToyDAO {
 				float price = rs.getFloat("toy_price");
 				String description = rs.getString("toy_description");
 				String details = rs.getString("toy_details");
-				toy = new Toy(toycode, image, name, brand,  price, description, details);
+				Toy toy = new Toy(toycode);
+				list.add(new Toy(toycode, image, name, brand, price, description, details, toyCategoryDAO.getAllCategories(toy)));
 				toyStatus = true;
 			}
 			
-			if (!toyStatus) {
+			if (!toyStatus) 
 				return null;
-			}
-			
-			return toy;
+			return list;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -58,11 +59,12 @@ public class ToyDAO {
 		}
 	}
 	
-	public List<Toy> getAllToy() throws Exception {
+	public Toy getOneToy(Toy toy) throws Exception {
 		try {
-			ps = conn.prepareStatement("SELECT * FROM toy_table");
+			ps = conn.prepareStatement("SELECT * FROM toy_table WHERE toy_code = ?");
+			ps.setInt(1, toy.getToyCode());
 			rs = ps.executeQuery();
-			List<Toy> list = new ArrayList<>();
+			ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
 			boolean toyStatus = false;
 
 			while (rs.next()) {
@@ -73,15 +75,13 @@ public class ToyDAO {
 				float price = rs.getFloat("toy_price");
 				String description = rs.getString("toy_description");
 				String details = rs.getString("toy_details");
-				list.add(new Toy(toycode, image, name, brand, price, description, details));
+				toy = new Toy(toycode, image, name, brand, price, description, details, toyCategoryDAO.getAllCategories(toy));
 				toyStatus = true;
 			}
 			
-			if (!toyStatus) {
+			if (!toyStatus) 
 				return null;
-			}
-			
-			return list;
+			return toy;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -95,6 +95,8 @@ public class ToyDAO {
 		if (toy == null)
 			throw new Exception("The value don't can be null");
 		try {
+			ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
+			
 			String SQL = "INSERT INTO toy_table "
 				       + "(toy_code, toy_image, toy_name, toy_brand, toy_price, toy_description, toy_details) "
 					   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -108,11 +110,13 @@ public class ToyDAO {
 			ps.setString(6, toy.getToyDescription());
 			ps.setString(7, toy.getToyDetails());
 			
-			if (ps.executeUpdate() > 0) {
+			if (ps.executeUpdate() > 0) {	
+				for (Category category : toy.getToyCategories()) 
+					if (!toyCategoryDAO.toyCategoryInsert(toy, category)) 
+						return false;
 				return true;
-			} else {
-				return false;
 			} 
+			return false;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -127,6 +131,8 @@ public class ToyDAO {
 			throw new Exception("The value don't can be null");
 		}
 		try {
+			ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
+
 			String SQL = "UPDATE toy_table "
 				   	   + "SET toy_image = ?, toy_name = ?, toy_brand = ?, toy_price = ?, toy_description = ?, toy_details = ? "
 					   + "WHERE toy_code = ?";
@@ -141,10 +147,13 @@ public class ToyDAO {
 			ps.setInt(7, toy.getToyCode());
 				
 			if (ps.executeUpdate() > 0) {
-				return true;
-			} else {
-				return false;
+				if (toyCategoryDAO.toyCategoryDelete(toy))
+					for (Category category : toy.getToyCategories()) 
+						if (!toyCategoryDAO.toyCategoryInsert(toy, category)) 
+							return false;
+					return true;
 			} 
+			return false;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
@@ -154,25 +163,32 @@ public class ToyDAO {
 		}
 	}
 	
-	public Boolean deleteToy(Toy toy) throws Exception {
+	public Boolean deleteToy(Toy toy, boolean toyCategory) throws Exception {
 		try {
+			if (toyCategory) {
+				ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
+				if (!toyCategoryDAO.toyCategoryDelete(toy)) throw new SQLException("SQL error: ");
+				System.out.println("$");
+			}
+			
 			String SQL = "DELETE FROM toy_table WHERE toy_code = ?";
+
 			ps = conn.prepareStatement(SQL);
+
 			ps.setInt(1, toy.getToyCode());
 			
 			if (ps.executeUpdate() > 0) {
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		} catch (SQLException e) {
 			throw new SQLException("SQL error: " + e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Unexpected error: " + e.getMessage());
 		} finally {
-			ConnectionFactory.closeConnection(conn, ps);
+			if (toyCategory) {
+				ConnectionFactory.closeConnection(conn, ps);
+			}
 		}
 	}
-	
-	
 }

@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import br.edu.toycenter.dao.CategoryDAO;
 import br.edu.toycenter.dao.ToyDAO;
+import br.edu.toycenter.model.Category;
 import br.edu.toycenter.model.Toy;
 
 @WebServlet("/ToyController")
@@ -26,20 +28,34 @@ public class ToyController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		try {
+    		ToyDAO toydao = new ToyDAO();
+    		CategoryDAO categorydao = new CategoryDAO();
+    		Toy toy = null;
+    		
 			if (action.equals("getAllToy")) {
 				getAllToy(request, response);
+				
 			} else if (action.equals("updateToy")) {
-        		ToyDAO toydao = new ToyDAO();
-        		Toy toy = toydao.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code"))));
+        		toy = toydao.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code"))));
         		HttpSession session = request.getSession(true);
+		    	List<Category> categoryList = categorydao.getAllCategory();
+		    	request.setAttribute("categoryList", categoryList);
         		session.setAttribute("toy", toy);
-	            forwardToPage(request, response, "jsp/updateToy.jsp");
+	            forwardToPage(request, response, "jsp/toy/updateToy.jsp");
+	            
 			} else if (action.equals("deleteToy")) {
-        		ToyDAO toydao = new ToyDAO();
-        		Toy toy = toydao.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code"))));
+        		toy = toydao.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code"))));
         		HttpSession session = request.getSession(true);
         		session.setAttribute("toy", toy);
-	            forwardToPage(request, response, "jsp/deleteToy.jsp");
+	            forwardToPage(request, response, "jsp/toy/deleteToy.jsp");
+	            
+		    }  else if (action.equals("insertToy")) {
+		    	List<Category> categoryList = categorydao.getAllCategory();
+        		request.setAttribute("categoryList", categoryList);
+	            forwardToPage(request, response, "jsp/toy/insertToy.jsp");
+	            
+		    } else if (action.equals("getOneToy")) {
+        		getOneToy(request, response);
 		    }
 			
         	request.setAttribute("message", "Page not found");
@@ -58,7 +74,6 @@ public class ToyController extends HttpServlet {
         	request.setAttribute("message", "Page not found");
         	forwardToPage(request, response, "jsp/error.jsp");
         }
-        
         try {          
             switch (action) {
             	case "getOneToy":
@@ -90,7 +105,7 @@ public class ToyController extends HttpServlet {
 		
 		if (list != null) {
 			request.setAttribute("toyList", list);
-	    	forwardToPage(request, response, "jsp/getAllToy.jsp");
+	    	forwardToPage(request, response, "jsp/toy/getAllToy.jsp");
 		} else {
 	    	request.setAttribute("message", "Toys not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -104,7 +119,7 @@ public class ToyController extends HttpServlet {
 		
 		if (toy != null) {
 			request.setAttribute("toy", toy);
-	    	forwardToPage(request, response, "jsp/getOneToy.jsp");
+	    	forwardToPage(request, response, "jsp/toy/getOneToy.jsp");
 		} else {
 	    	request.setAttribute("message", "Toy not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -115,12 +130,8 @@ public class ToyController extends HttpServlet {
 		ToyDAO td = new ToyDAO();
 		Toy toy = createObjectToy(request, response);
 		
-		if (td.insertToy(toy)) {
-	    	request.setAttribute("message", "Toy inserted sucessfully");
-		} else {
-	    	request.setAttribute("message", "Unable to create toy");
-		}
-    	
+		String msg =  td.insertToy(toy) ? "Toy inserted sucessfully" : "Unable to create toy";
+	    request.setAttribute("message", msg);
 		getAllToy(request, response);
 	}
 	
@@ -128,12 +139,8 @@ public class ToyController extends HttpServlet {
 		ToyDAO td = new ToyDAO();
 		Toy toy = createObjectToy(request, response);
 
-		if (td.updateToy(toy)) {
-	    	request.setAttribute("message", "Toy updated sucessfully");
-		} else {
-	    	request.setAttribute("message", "Unable to update toy");
-		}
-		
+		String msg =  td.updateToy(toy) ? "Toy updated sucessfully" : "Unable to update toy";
+	    request.setAttribute("message", msg);
 		getOneToy(request, response);
 	} 
 	
@@ -141,25 +148,23 @@ public class ToyController extends HttpServlet {
 		ToyDAO td = new ToyDAO();
 		Toy toy = new Toy(Integer.parseInt(request.getParameter("toy_code")));
 		
-		if (td.deleteToy(toy)) {
-	    	request.setAttribute("message", "Toy deleted sucessfully");
-		} else {
-	    	request.setAttribute("message", "Unable to delete toy");
-		}
-		
+		String msg =  td.deleteToy(toy, true) ? "Toy deleted sucessfully" : "Unable to delete toy";
+	    request.setAttribute("message", msg);
 		getAllToy(request, response);
 	}
 	
 	private Toy createObjectToy(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		Toy toy = new Toy();
 		try {
+			toy = setToyCategories(request, response, toy);
 			toy.setToyCode(Integer.parseInt(request.getParameter("toy_code")));
 			toy.setToyImage(uploadImage(request, response));			
 			toy.setToyName(request.getParameter("toy_name"));
 			toy.setToyBrand(request.getParameter("toy_brand"));
 			toy.setToyPrice(Float.parseFloat(request.getParameter("toy_price")));
 			toy.setToyDescription(request.getParameter("toy_description"));
-			toy.setToyDetails(request.getParameter("toy_details"));		
+			toy.setToyDetails(request.getParameter("toy_details"));
+
 		} catch (Exception e) {
 	    	request.setAttribute("message", e.getMessage());
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -172,16 +177,36 @@ public class ToyController extends HttpServlet {
 		rd.forward(request, response);
 	}
 	
-	public String uploadImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String path = "/home/vitor/eclipse-workspace/ToyCenter/src/main/webapp/image";		
+	private String uploadImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String path = "/home/vitor/eclipse-workspace/ToyCenter/src/main/webapp/image/dataBaseImage";		
 		for(Part part : request.getParts()) {
 			if (part.getName().equals("toy_image") && part.getSize() > 0) {
 				part.write(path + File.separator + part.getSubmittedFileName());
-				return "image" + File.separator + part.getSubmittedFileName();
+				return "image/dataBaseImage" + File.separator + part.getSubmittedFileName();
 			}
 		}
 		
 		ToyDAO td = new ToyDAO();
 		return td.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code")))).getToyImage();
+	}
+	
+	private Toy setToyCategories(HttpServletRequest request, HttpServletResponse response, Toy toy) throws Exception {
+		if (request.getParameter("toy_categories") == null) return null;
+		try {
+			CategoryDAO categorydao = new CategoryDAO();
+			List<Category> categoryList = categorydao.getAllCategory();
+			String[] categoryVector = request.getParameterValues("toy_categories");
+			
+			for (String categoryStr : categoryVector) 
+				for (Category category : categoryList) 
+					if (category.getCategoryCode() ==  Integer.parseInt(categoryStr)) 
+						toy.addCategory(category);
+			
+			return toy;
+		} catch (Exception e) {
+		    request.setAttribute("message", e.getMessage());
+	        forwardToPage(request, response, "jsp/error.jsp");
+			throw new Exception(e.getMessage());
+		}
 	}
 }

@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="br.edu.toycenter.model.Category"%>
+<%@ page import="br.edu.toycenter.model.Toy"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -25,6 +29,35 @@
 				<td><input type="text" size="150" name="toy_name" value="<%=toy.getToyName()%>" required></td>
 			</tr>
 			<tr>
+				<td>Category:</td>
+				<td>
+					<%
+					List<Category> list = (ArrayList) request.getAttribute("categoryList");
+					String message = (String) request.getAttribute("message");
+					for (Category category : list) {
+						boolean status = false;
+						for (Category toyCategory : toy.getToyCategories()) {
+							if (category.getCategoryCode() == toyCategory.getCategoryCode()) {
+								%>
+								<label> <%= category.getCategoryName() %>
+								<input type="checkbox" name="toy_categories" value="<%= category.getCategoryCode() %>" checked/> </label>
+				  				<%
+				  				status = true;
+				  				break;
+							}
+						}
+						if (!status) {
+					%>
+						<label> <%= category.getCategoryName() %>
+						<input type="checkbox" name="toy_categories" value="<%= category.getCategoryCode() %>" /> </label>
+					
+	  				<%
+						}
+					}
+					%>
+  				</td>
+    		<tr>
+			<tr>
 				<td>Toy brand:</td>
 				<td> <input type="text" name="toy_brand" size="150" value="<%=toy.getToyBrand()%>" placeholder="Type a brand" required> </td>
 			</tr>
@@ -47,6 +80,7 @@
 				<th colspan="2"><a href="index.html">Main page</a></th>
 			</tr>
 		</table>
+		<p> <% if (!(message == null)) out.print(message); %> </p>
 	</form>
 </body>
 </html>
