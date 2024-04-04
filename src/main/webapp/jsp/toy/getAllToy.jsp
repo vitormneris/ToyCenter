@@ -11,9 +11,16 @@
 		<title>Toy list</title>
 	</head>
 <body>
+	<nav>
+		<ul>
+			<li><a href="ToyController?action=getAllToy" >Main page</a></li>
+			<li><a href="ToyController?action=getAllToyAdm" >Administration</a></li>
+			<li><a href="CategoryController?action=getAllCategory" >Categories</a></li>
+		</ul>
+	</nav>
 	<table width="60%" border="1">
 		<tr>
-			<th colspan="9"> <h1>Toy list</h1> </th>
+			<th colspan="8"> <h1>Home</h1> </th>
 		</tr>
 		<tr>
 			<th>Toy Code</th>
@@ -24,7 +31,6 @@
 			<th>Toy Price</th>
 			<th>Toy Description</th>
 			<th>Toy Details</th>
-			<th>Toy operations</th>
 		</tr>
 		<%
 		List<Toy> list = (ArrayList) request.getAttribute("toyList");
@@ -49,20 +55,12 @@
 				<td><%= toy.getToyPrice() %></td>
 				<td><%= toy.getToyDescription() %></td>
 				<td><%= toy.getToyDetails() %></td>
-				<td>
-					<a href="ToyController?action=deleteToy&toy_code=<%= toy.getToyCode() %>">Delete</a>
-				    <a href="ToyController?action=updateToy&toy_code=<%= toy.getToyCode() %>">Update</a>
-				</td>
 			</tr>
 		<%
 		}
 		%>
-		<tr>
-			<th colspan="9"> <a href="index.html">Main page</a> </th>
-		</tr>
 	</table>
 	
 	<p> <% if (!(message == null)) out.print(message); %> </p>
-	<a href="ToyController?action=insertToy" >insert toy</a>
 </body>
 </html>

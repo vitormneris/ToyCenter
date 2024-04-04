@@ -24,6 +24,18 @@ public class Toy {
 	}
 
 	public Toy(int toyCode, String toyImage, String toyName, String toyBrand, float toyPrice,
+			String toyDescription, String toyDetails) {
+		super();
+		this.toyCode = toyCode;
+		this.toyImage = toyImage;
+		this.toyName = toyName;
+		this.toyBrand = toyBrand;
+		this.toyPrice = toyPrice;
+		this.toyDescription = toyDescription;
+		this.toyDetails = toyDetails;
+	}
+	
+	public Toy(int toyCode, String toyImage, String toyName, String toyBrand, float toyPrice,
 			String toyDescription, String toyDetails, List<Category> toyCategories) {
 		super();
 		this.toyCode = toyCode;

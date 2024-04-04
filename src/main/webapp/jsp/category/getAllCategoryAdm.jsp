@@ -10,11 +10,13 @@
 		<title>Category list</title>
 	</head>
 <body>
-	<ul>
-		<li><a href="ToyController?action=getAllToy" >Main page</a></li>
-		<li><a href="ToyController?action=getAllToyAdm" >Administration</a></li>
-		<li><a href="CategoryController?action=getAllCategory" >Categories</a></li>
-	</ul>
+	<nav>
+		<ul>
+			<li> <a href="ToyController?action=getAllToy">Main page</a> </li>
+			<li><a href="ToyController?action=getAllToyAdm" >Toy Administration</a></li>
+			<li><a href="html/category/insertCategory.html" >insert category</a></li>
+		</ul>
+	</nav>
 	<table width="60%" border="1">
 		<tr>
 			<th colspan="3"> <h1>Category list</h1> </th>
@@ -22,6 +24,7 @@
 		<tr>
 			<th>Category Code</th>
 			<th>Category Name</th>
+			<th>Category Operations</th>
 		</tr>
 		<%
 		List<Category> categoryList = (ArrayList) request.getAttribute("categoryList");
@@ -29,9 +32,12 @@
 		for (Category category : categoryList) {
 		%>
 			<tr>
-				<td> <%= category.getCategoryCode() %></td>
-				<td><a href="CategoryController?action=getOneCategory&category_code=<%= category.getCategoryCode() %>">
-				<%= category.getCategoryName() %></a></td>
+				<td><%= category.getCategoryCode() %></td>
+				<td><%= category.getCategoryName() %></td>
+				<td>
+					<a href="CategoryController?action=deleteCategory&category_code=<%= category.getCategoryCode() %>">Delete</a>
+				    <a href="CategoryController?action=updateCategory&category_code=<%= category.getCategoryCode() %>">Update</a>
+				</td>
 			</tr>
 		<%
 		}

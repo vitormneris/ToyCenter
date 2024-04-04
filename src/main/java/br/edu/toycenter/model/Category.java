@@ -16,11 +16,18 @@ public class Category {
 		super();
 		this.categoryCode = categoryCode;
 	}
-
+	
 	public Category(int categoryCode, String categoryName) {
 		super();
 		this.categoryCode = categoryCode;
 		this.categoryName = categoryName;
+	}
+
+	public Category(int categoryCode, String categoryName, List<Toy> toys) {
+		super();
+		this.categoryCode = categoryCode;
+		this.categoryName = categoryName;
+		this.toys = toys;
 	}
 
 	public int getCategoryCode() {
@@ -39,7 +46,7 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
-	public List<Toy> getCategories() {
+	public List<Toy> getCategoryToys() {
 		return toys;
 	}
 	

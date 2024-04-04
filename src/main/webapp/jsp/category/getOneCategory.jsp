@@ -24,9 +24,6 @@
 			<td><%= category.getCategoryCode() %></td>
 			<td><%= category.getCategoryName() %></td>
 		</tr>
-		<tr>
-			<th colspan="2"> <a href="index.html">Main page</a> </th>
-		</tr>
 	</table>
 	
 	<p> <% if (!(message == null)) out.print(message); %> </p>
