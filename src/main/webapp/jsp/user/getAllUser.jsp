@@ -16,7 +16,6 @@
 			<li> <a href="ToyController?action=getAllToy">Main page</a> </li>
 			<li><a href="ToyController?action=getAllToyAdm" >Toy Administration</a></li>
 			<li><a href="UserController?action=insertUser" >insert user</a></li>
-			<li><a href="UserController?action=logOut" >log out user</a></li>
 		</ul>
 	</nav>
 	<table width="60%" border="1">

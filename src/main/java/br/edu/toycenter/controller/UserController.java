@@ -20,16 +20,16 @@ import br.edu.toycenter.model.User;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		
         HttpSession session = request.getSession(false); 
 
-		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn"))) {
-			forwardToPage(request, response, "index.jsp");
-			return;
-		}
+		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
+			forwardToPage(request, response, "html/login.html");
 		
 		try {
     		UserDAO userdao = new UserDAO();
@@ -110,8 +110,7 @@ public class UserController extends HttpServlet {
 		User user = new User(request.getParameter("user_email"), request.getParameter("user_password"));
 		if (userDAO.loginUser(user)) {
 			
-	        String redirectScript = "<script>window.location.href='ToyController?action=getAllToy';</script>";
-			request.setAttribute("message", redirectScript);
+	        String redirectScript = "<script>window.location.href='ToyController?action=getAllToyAdm';</script>";
 			HttpSession session = request.getSession(true);
 			session.setAttribute("loggedIn", true);
 			request.setAttribute("message", redirectScript);
@@ -121,7 +120,6 @@ public class UserController extends HttpServlet {
 	    	request.setAttribute("message", "E-mail or password is wrong.");
         	forwardToPage(request, response, "jsp/error.jsp");
 		}
-		
     }
     
     private void loginOutUser(HttpServletRequest request, HttpServletResponse response) throws Exception {

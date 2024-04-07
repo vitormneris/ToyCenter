@@ -22,30 +22,29 @@ public class CategoryController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
-        HttpSession session = request.getSession(false); 
-
-		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
-			forwardToPage(request, response, "index.jsp");
+		String action = request.getParameter("action"); 
 		
 		try {
 			if (action.equals("getAllCategory")) {
 				getAllCategory(request, response, false);
 			} else if (action.equals("updateCategory")) {
+				screenBlock(request, response);
         		CategoryDAO categorydao = new CategoryDAO();
         		Category category = categorydao.getOneCategory(new Category(Integer.parseInt(request.getParameter("category_code"))));
-        		session = request.getSession(true);
+        		HttpSession session = request.getSession(true);
         		session.setAttribute("category", category);
 	            forwardToPage(request, response, "jsp/category/updateCategory.jsp");
 			} else if (action.equals("deleteCategory")) {
+				screenBlock(request, response);
         		CategoryDAO categorydao = new CategoryDAO();
         		Category category = categorydao.getOneCategory(new Category(Integer.parseInt(request.getParameter("category_code"))));
-        		session = request.getSession(true);
+        		HttpSession session = request.getSession(true);
         		session.setAttribute("category", category);
 	            forwardToPage(request, response, "jsp/category/deleteCategory.jsp");
 		    } else if (action.equals("getOneCategory")) {
 		    	getOneCategory(request, response);
 		    } else if (action.equals("getAllCategoryAdm")) {
+				screenBlock(request, response);
 				getAllCategory(request, response, true);
 		    } 
 			
@@ -181,5 +180,12 @@ public class CategoryController extends HttpServlet {
 	private void forwardToPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);
+	}
+	
+	private void screenBlock(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); 
+
+		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
+			forwardToPage(request, response, "html/login.html");
 	}
 }
