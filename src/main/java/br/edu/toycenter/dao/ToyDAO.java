@@ -20,9 +20,9 @@ public class ToyDAO {
 		try {
 			this.conn = ConnectionFactory.getConnection();
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - tente novamente mais tarde.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - tente novamente mais tarde.");
 		}
 	}
 	
@@ -51,9 +51,9 @@ public class ToyDAO {
 				return null;
 			return list;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível encontrar os brinquedos.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível encontrar os brinquedos.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps, rs);
 		}
@@ -83,9 +83,9 @@ public class ToyDAO {
 				return null;
 			return toy;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível encontrar o brinquedo.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível encontrar o brinquedo.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps, rs);
 		}
@@ -118,9 +118,9 @@ public class ToyDAO {
 			} 
 			return false;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível inserir o brinquedo.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível inserir o brinquedo.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
@@ -147,17 +147,18 @@ public class ToyDAO {
 			ps.setInt(7, toy.getToyCode());
 				
 			if (ps.executeUpdate() > 0) {
-				if (toyCategoryDAO.toyCategoryDelete(toy))
+				if (toyCategoryDAO.toyCategoryDelete(toy)) {
 					for (Category category : toy.getToyCategories()) 
 						if (!toyCategoryDAO.toyCategoryInsert(toy, category)) 
 							return false;
 					return true;
-			} 
+				}
+			}
 			return false;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível atualizar o brinquedo.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível atualizar o brinquedo.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
@@ -182,9 +183,9 @@ public class ToyDAO {
 			}
 			return false;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível deletar o brinquedo.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível deletar o brinquedo.");
 		} finally {
 			if (toyCategory) {
 				ConnectionFactory.closeConnection(conn, ps);

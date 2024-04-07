@@ -11,6 +11,9 @@
 		<title>Toy Center</title>
 	</head>
 <body>
+	<ul>
+		<li><a href="ToyController?action=getAllToyAdm">Back</a></li>
+	</ul>
 	<h2>Update Toy</h2>
 	<jsp:useBean id="toy" scope="session" class="br.edu.toycenter.model.Toy" />
 
@@ -75,9 +78,6 @@
 			</tr>
 			<tr>
 				<th colspan="2"><input type="submit" value="Submit" /></th>
-			</tr>
-			<tr>
-				<th colspan="2"><a href="index.html">Main page</a></th>
 			</tr>
 		</table>
 		<p> <% if (!(message == null)) out.print(message); %> </p>

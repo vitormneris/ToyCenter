@@ -4,20 +4,20 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Category Center</title>
+		<title>User Center</title>
 	</head>
 <body>
 	<ul>
-		<li><a href="CategoryController?action=getAllCategoryAdm">Back</a></li>
+		<li><a href="UserController?action=getAllUser">Back</a></li>
 	</ul>
-	<h2>Delete category</h2>
-	<jsp:useBean id="category" scope="session" class="br.edu.toycenter.model.Category" />
+	<h2>Delete user</h2>
+	<jsp:useBean id="user" scope="session" class="br.edu.toycenter.model.User" />
 
-	<form action="CategoryController?action=deleteCategory" method="POST">
+	<form action="UserController?action=deleteUser" method="POST">
 		<table border="1">
 			<tr>
 				<td>Code</td>
-				<td><input type="number" size="60" name="category_code" value="<%= category.getCategoryCode() %>" readonly="readonly"></td>
+				<td><input type="number" size="60" name="user_code" value="<%= user.getUserCode() %>" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<th colspan="2"><input type="submit" value="Submit" /></th>

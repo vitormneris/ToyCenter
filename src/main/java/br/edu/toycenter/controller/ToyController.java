@@ -27,36 +27,43 @@ public class ToyController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		
 		try {
     		ToyDAO toydao = new ToyDAO();
     		CategoryDAO categorydao = new CategoryDAO();
     		Toy toy = null;
-    		
-			if (action.equals("getAllToy")) {
-				getAllToy(request, response);
+
+    		if (action.equals("getAllToy")) {
+				getAllToy(request, response, false);
 				
 			} else if (action.equals("updateToy")) {
+				screenBlock(request, response);
         		toy = toydao.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code"))));
         		HttpSession session = request.getSession(true);
-		    	List<Category> categoryList = categorydao.getAllCategory();
+		    	List<Category> categoryList = categorydao.getAllCategoryWithToy(false);
 		    	request.setAttribute("categoryList", categoryList);
         		session.setAttribute("toy", toy);
 	            forwardToPage(request, response, "jsp/toy/updateToy.jsp");
 	            
 			} else if (action.equals("deleteToy")) {
+				screenBlock(request, response);
         		toy = toydao.getOneToy(new Toy(Integer.parseInt(request.getParameter("toy_code"))));
         		HttpSession session = request.getSession(true);
         		session.setAttribute("toy", toy);
 	            forwardToPage(request, response, "jsp/toy/deleteToy.jsp");
 	            
 		    }  else if (action.equals("insertToy")) {
-		    	List<Category> categoryList = categorydao.getAllCategory();
+				screenBlock(request, response);
+		    	List<Category> categoryList = categorydao.getAllCategoryWithToy(false);
         		request.setAttribute("categoryList", categoryList);
 	            forwardToPage(request, response, "jsp/toy/insertToy.jsp");
 	            
 		    } else if (action.equals("getOneToy")) {
         		getOneToy(request, response);
-		    }
+		    } else if (action.equals("getAllToyAdm")) {
+				screenBlock(request, response);
+        		getAllToy(request, response, true);
+		    } 
 			
         	request.setAttribute("message", "Page not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -70,10 +77,12 @@ public class ToyController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+
         if (action == null) {
         	request.setAttribute("message", "Page not found");
         	forwardToPage(request, response, "jsp/error.jsp");
         }
+		
         try {          
             switch (action) {
             	case "getOneToy":
@@ -99,13 +108,15 @@ public class ToyController extends HttpServlet {
         }
     }
 	
-    private void getAllToy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
+    private void getAllToy(HttpServletRequest request, HttpServletResponse response, boolean adm) throws ServletException, IOException, Exception {
 		ToyDAO td = new ToyDAO();
 		List<Toy> list = td.getAllToy();
 		
 		if (list != null) {
 			request.setAttribute("toyList", list);
-	    	forwardToPage(request, response, "jsp/toy/getAllToy.jsp");
+	    	String msg = (adm) ? "jsp/toy/getAllToyAdm.jsp" :"jsp/toy/getAllToy.jsp";
+			
+			forwardToPage(request, response, msg);
 		} else {
 	    	request.setAttribute("message", "Toys not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -132,7 +143,7 @@ public class ToyController extends HttpServlet {
 		
 		String msg =  td.insertToy(toy) ? "Toy inserted sucessfully" : "Unable to create toy";
 	    request.setAttribute("message", msg);
-		getAllToy(request, response);
+		getAllToy(request, response, true);
 	}
 	
 	private void updateToy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -150,11 +161,14 @@ public class ToyController extends HttpServlet {
 		
 		String msg =  td.deleteToy(toy, true) ? "Toy deleted sucessfully" : "Unable to delete toy";
 	    request.setAttribute("message", msg);
-		getAllToy(request, response);
+		getAllToy(request, response, true);
 	}
 	
-	private Toy createObjectToy(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private Toy createObjectToy(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Toy toy = new Toy();
+		
+		if (request.getParameter("toy_categories") == null) throw new Exception("Toy categories can not be null");
+		
 		try {
 			toy = setToyCategories(request, response, toy);
 			toy.setToyCode(Integer.parseInt(request.getParameter("toy_code")));
@@ -194,7 +208,7 @@ public class ToyController extends HttpServlet {
 		if (request.getParameter("toy_categories") == null) return null;
 		try {
 			CategoryDAO categorydao = new CategoryDAO();
-			List<Category> categoryList = categorydao.getAllCategory();
+			List<Category> categoryList = categorydao.getAllCategoryWithToy(false);
 			String[] categoryVector = request.getParameterValues("toy_categories");
 			
 			for (String categoryStr : categoryVector) 
@@ -208,5 +222,12 @@ public class ToyController extends HttpServlet {
 	        forwardToPage(request, response, "jsp/error.jsp");
 			throw new Exception(e.getMessage());
 		}
+	}
+	
+	private void screenBlock(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); 
+
+		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
+			forwardToPage(request, response, "html/login.html");
 	}
 }

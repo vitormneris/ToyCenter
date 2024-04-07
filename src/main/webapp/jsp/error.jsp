@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,6 +13,6 @@
 	%>
 	<h1>Message error</h1>
 	<p><%= error %></p>
-	<a href="index.html">Main page</a> 
+	<a href="index.jsp">Main page</a> 
 </body>
 </html>

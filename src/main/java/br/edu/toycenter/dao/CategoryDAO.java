@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.toycenter.model.Category;
-import br.edu.toycenter.model.Toy;
 import br.edu.toycenter.model.ToyCategory;
 import br.edu.toycenter.util.ConnectionFactory;
 
@@ -21,9 +20,9 @@ public class CategoryDAO {
 		try {
 			this.conn = ConnectionFactory.getConnection();
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - tente novamente mais tarde.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - tente novamente mais tarde.");
 		}
 	}
 	
@@ -33,11 +32,12 @@ public class CategoryDAO {
 			ps.setInt(1, category.getCategoryCode());
 			rs = ps.executeQuery();
 			boolean categoryStatus = false;
-
+			ToyCategoryDAO tcd = new ToyCategoryDAO();
+			
 			while (rs.next()) {
 				int categorycode = rs.getInt("category_code");
 				String name = rs.getString("category_name");
-				category = new Category(categorycode, name);
+				category = new Category(categorycode, name, tcd.getAllToyByCategory(category));
 				categoryStatus = true;
 			}
 			
@@ -47,26 +47,32 @@ public class CategoryDAO {
 			
 			return category;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível encontrar a categoria.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível encontrar a categoria.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps, rs);
 		}
 	}
 	
-	public List<Category> getAllCategory() throws Exception {
+	public List<Category> getAllCategoryWithToy(boolean yes) throws Exception {
 		try {
 			ps = conn.prepareStatement("SELECT * FROM category_table");
 			rs = ps.executeQuery();
 			List<Category> list = new ArrayList<>();
+			ToyCategoryDAO tcd = new ToyCategoryDAO();
 			boolean categoryStatus = false;
 
 			while (rs.next()) {
-				int categorycode = rs.getInt("category_code");
+				int categoryCode = rs.getInt("category_code");
 				String name = rs.getString("category_name");
+				Category category = new Category(rs.getInt("category_code"));
+				if (yes) {
+					list.add(new Category(categoryCode, name, tcd.getAllToyByCategory(category)));
+				} else {
+					list.add(new Category(categoryCode, name));
 
-				list.add(new Category(categorycode, name));
+				}
 				categoryStatus = true;
 			}
 			
@@ -76,9 +82,9 @@ public class CategoryDAO {
 			
 			return list;
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível encontrar as categorias.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível encontrar as categorias.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps, rs);
 		}
@@ -101,9 +107,9 @@ public class CategoryDAO {
 				return false;
 			} 
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível inserir a categoria.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível inserir a categoria.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
@@ -126,9 +132,9 @@ public class CategoryDAO {
 				return false;
 			} 
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível atualizar a categoria.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível atualizar a categoria.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
@@ -147,7 +153,6 @@ public class CategoryDAO {
 			}
 			
 			if (status) {
-				System.out.println("sdfsdfds");
 				toyCategoryDAO = new ToyCategoryDAO();
 				if (!toyCategoryDAO.toyCategoryDelete(category)) throw new SQLException("SQL error");
 
@@ -164,9 +169,9 @@ public class CategoryDAO {
 				return false;
 			}
 		} catch (SQLException e) {
-			throw new SQLException("SQL error: " + e.getMessage());
+			throw new SQLException("Erro no banco de dados - Não foi possível deletar a categoria.");
 		} catch (Exception e) {
-			throw new Exception("Unexpected error: " + e.getMessage());
+			throw new Exception("Erro inesperado - Não foi possível deletar a categoria.");
 		} finally {
 			ConnectionFactory.closeConnection(conn, ps);
 		}

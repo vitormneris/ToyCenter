@@ -10,6 +10,9 @@
 		<title>Toy page</title>
 	</head>
 <body>
+	<ul>
+		<li><a href="ToyController?action=getAllToyAdm">Back</a></li>
+	</ul>
 	<form action="ToyController" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="action" value="insertToy">
 		<table border="1">
@@ -64,9 +67,6 @@
 			</tr>
 			<tr>
 				<td colspan="2" align="center"> <input type="submit" value="Submit"> </td>
-			</tr>
-			<tr>
-				<th colspan="2"><a href="index.html">Main page</a></th>
 			</tr>
 		</table>
 		<p> <% if (!(message == null)) out.print(message); %> </p>

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.edu.toycenter.dao.CategoryDAO;
-import br.edu.toycenter.dao.ToyDAO;
 import br.edu.toycenter.model.Category;
 
 @WebServlet("/CategoryController")
@@ -23,17 +22,20 @@ public class CategoryController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String action = request.getParameter("action"); 
+		
 		try {
 			if (action.equals("getAllCategory")) {
-				getAllCategory(request, response);
+				getAllCategory(request, response, false);
 			} else if (action.equals("updateCategory")) {
+				screenBlock(request, response);
         		CategoryDAO categorydao = new CategoryDAO();
         		Category category = categorydao.getOneCategory(new Category(Integer.parseInt(request.getParameter("category_code"))));
         		HttpSession session = request.getSession(true);
         		session.setAttribute("category", category);
 	            forwardToPage(request, response, "jsp/category/updateCategory.jsp");
 			} else if (action.equals("deleteCategory")) {
+				screenBlock(request, response);
         		CategoryDAO categorydao = new CategoryDAO();
         		Category category = categorydao.getOneCategory(new Category(Integer.parseInt(request.getParameter("category_code"))));
         		HttpSession session = request.getSession(true);
@@ -41,7 +43,10 @@ public class CategoryController extends HttpServlet {
 	            forwardToPage(request, response, "jsp/category/deleteCategory.jsp");
 		    } else if (action.equals("getOneCategory")) {
 		    	getOneCategory(request, response);
-		    }
+		    } else if (action.equals("getAllCategoryAdm")) {
+				screenBlock(request, response);
+				getAllCategory(request, response, true);
+		    } 
 			
         	request.setAttribute("message", "Page not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -59,6 +64,11 @@ public class CategoryController extends HttpServlet {
         	request.setAttribute("message", "Page not found");
         	forwardToPage(request, response, "jsp/error.jsp");
         }
+        
+        HttpSession session = request.getSession(false); 
+
+		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
+			forwardToPage(request, response, "index.jsp");
         
         try {          
             switch (action) {
@@ -85,13 +95,15 @@ public class CategoryController extends HttpServlet {
         }
     }
 	
-    private void getAllCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
+    private void getAllCategory(HttpServletRequest request, HttpServletResponse response, boolean adm) throws ServletException, IOException, Exception {
 		CategoryDAO td = new CategoryDAO();
-		List<Category> list = td.getAllCategory();
+		List<Category> list = td.getAllCategoryWithToy(true);
 		
 		if (list != null) {
 			request.setAttribute("categoryList", list);
-	    	forwardToPage(request, response, "jsp/category/getAllCategory.jsp");
+			
+			String msg = (adm) ? "jsp/category/getAllCategoryAdm.jsp" : "jsp/category/getAllCategory.jsp";
+	    	forwardToPage(request, response, msg);
 		} else {
 	    	request.setAttribute("message", "Categorys not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -105,7 +117,8 @@ public class CategoryController extends HttpServlet {
 		
 		if (category != null) {
 			request.setAttribute("category", category);
-	    	forwardToPage(request, response, "jsp/category/getOneCategory.jsp");
+
+	    	forwardToPage(request, response, "jsp/category/getAllToyByCategory.jsp");
 		} else {
 	    	request.setAttribute("message", "Category not found");
         	forwardToPage(request, response, "jsp/error.jsp");
@@ -122,7 +135,7 @@ public class CategoryController extends HttpServlet {
 	    	request.setAttribute("message", "Unable to create category");
 		}
     	
-		getAllCategory(request, response);
+		getAllCategory(request, response, true);
 	}
 	
 	private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -135,7 +148,7 @@ public class CategoryController extends HttpServlet {
 	    	request.setAttribute("message", "Unable to update category");
 		}
 		
-		getOneCategory(request, response);
+		getAllCategory(request, response, true);
 	} 
 	
 	private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -148,7 +161,7 @@ public class CategoryController extends HttpServlet {
 	    	request.setAttribute("message", "Unable to delete category");
 		}
 		
-		getAllCategory(request, response);
+		getAllCategory(request, response, true);
 	}
 	
 	private Category createObjectCategory(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -167,5 +180,12 @@ public class CategoryController extends HttpServlet {
 	private void forwardToPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);
+	}
+	
+	private void screenBlock(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); 
+
+		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
+			forwardToPage(request, response, "html/login.html");
 	}
 }

@@ -7,6 +7,9 @@
 		<title>Category Center</title>
 	</head>
 <body>
+	<ul>
+		<li><a href="CategoryController?action=getAllCategoryAdm">Back</a></li>
+	</ul>
 	<h2>Update Category</h2>
 	<jsp:useBean id="category" scope="session" class="br.edu.toycenter.model.Category" />
 
@@ -22,9 +25,6 @@
 			</tr>
 			<tr>
 				<th colspan="2"><input type="submit" value="Submit" /></th>
-			</tr>
-			<tr>
-				<th colspan="2"><a href="index.html">Main page</a></th>
 			</tr>
 		</table>
 	</form>
