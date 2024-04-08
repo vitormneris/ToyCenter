@@ -23,7 +23,7 @@
         <nav class="nav-bar">
             <div class="logo">
            		<a href="ToyController?action=getAllToy">
-                <img src="image\newLogo.svg" alt=""></a>
+                <img src="image/newLogo.svg" alt=""></a>
             </div>
 
             <div class="store_name">
@@ -40,7 +40,7 @@
             <a href="ToyController?action=getAllToy">Home</a>
             <a href="CategoryController?action=getAllCategory">Catálogo</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
-            <a href="#">Sobre a Equipe</a>
+            <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
     
@@ -83,7 +83,7 @@
         <%
 		for (Toy toy : list) {
 			for (Category category : toy.getToyCategories()) {
-				if (category.getCategoryName().equals("Meninos")) {
+				if (category.getCategoryName().equals("Menino")) {
 		%>
             <div class="card">
                 <a href="ToyController?action=getOneToy&toy_code=<%= toy.getToyCode() %>">

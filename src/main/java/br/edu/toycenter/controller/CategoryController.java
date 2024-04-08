@@ -1,5 +1,6 @@
 package br.edu.toycenter.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -11,9 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import br.edu.toycenter.dao.CategoryDAO;
+import br.edu.toycenter.dao.ToyDAO;
 import br.edu.toycenter.model.Category;
+import br.edu.toycenter.model.Toy;
 
 @WebServlet("/CategoryController")
 @MultipartConfig
@@ -167,14 +171,30 @@ public class CategoryController extends HttpServlet {
 	private Category createObjectCategory(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		Category category = new Category();
 		try {
-			category.setCategoryCode(Integer.parseInt(request.getParameter("category_code")));
+			if (!request.getParameter("action").equals("insertCategory")) {
+				category.setCategoryCode(Integer.parseInt(request.getParameter("category_code")));
+			}
 			category.setCategoryName(request.getParameter("category_name"));	
+			category.setCategoryImage(uploadImage(request, response));
 
 		} catch (Exception e) {
 	    	request.setAttribute("message", e.getMessage());
         	forwardToPage(request, response, "jsp/error.jsp");
 		}
 		return category;
+	}
+	
+	private String uploadImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String path = "/home/vitor/eclipse-workspace/ToyCenter/src/main/webapp/image/dataBaseImageCategory";		
+		for(Part part : request.getParts()) {
+			if (part.getName().equals("category_image") && part.getSize() > 0) {
+				part.write(path + File.separator + part.getSubmittedFileName());
+				return "image/dataBaseImageCategory" + File.separator + part.getSubmittedFileName();
+			}
+		}
+		
+		CategoryDAO td = new CategoryDAO();
+		return td.getOneCategory(new Category(Integer.parseInt(request.getParameter("category_code")))).getCategoryImage();
 	}
 	
 	private void forwardToPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {

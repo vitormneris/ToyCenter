@@ -1,0 +1,415 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0f172a;
+    font-family: "DM Sans", sans-serif;
+}
+
+/* Nav-Bar */
+.nav-bar {
+    width: 100%;
+    height: 7rem;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    width: 15vw;
+    background-color: #0f172a;
+    border-bottom: 1px solid white;
+    /* border-right: 1px solid white; */
+}
+
+.logo img {
+    width: 100%;
+
+}
+
+.store_name {
+    background-color: #0f172a;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    border-bottom: 1px solid white;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 600;
+    font-style: bold;
+}
+
+.space {
+    width: 15vw;
+    background-color: #0f172a;
+    border-bottom: 1px solid white;
+}
+
+/* Fim Nav-Bar */
+
+
+/* Inicio Menu Opções */
+.menu {
+    width: 100%;
+    height: 4vw;
+    background-color: #0f172a;
+    text-align: center;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: solid white 1px;
+    border-bottom: solid white 1px;
+}
+
+.menuList {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    margin: 70px;
+}
+
+.menuList a {
+    text-decoration: none;
+    color: black;
+    height: 2.2vh;
+    color: white;
+    font-family: "DM Sans", sans-serif;
+}
+
+/* Fim Menu Opções */
+
+
+
+/* Inicio Novo Brinquedo */
+
+.row {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+    flex-basis: 10%;
+}
+
+.Container_NewToy, .Container_NewCategory {
+    /*classe da main*/
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 30px;
+    width: 37vw;
+    height: 70vh;
+    font-family: "DM Sans", sans-serif;
+}
+
+#Content_NewToy, #Content_NewCategory {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #d3d2d2;
+    width: 60vw;
+    height: 100%;
+    
+}
+
+.title_textNT,.title_textNC {
+    width: 100%;
+    display: flex;
+    text-align: left;
+}
+
+.Text_NT,.Text_NC {
+    font-size: 18px;
+    border-bottom: 1px solid black;
+}
+
+
+
+
+.fieldsetNT_box,.fieldsetNC_box {
+    margin-top: 1%;
+    display: flex;
+    flex-flow: row wrap;
+    width: 50vw;
+    align-items: center;
+    padding: 20px;
+    
+   
+}
+
+.fieldsetNT_box #file_NT, input[type=file],.fieldsetNC_box #file_NC, input[type=file]  {
+    border: none;
+    background-color: #1e3a8a;
+}
+input[type=file]{
+    
+    color: white;
+
+}
+
+.categoryNT_Box,.categoryNC_Box {
+    display: flex;
+    width: 50vw;
+    height: 30vh;
+}
+
+.categoryNT_Box .fieldsetNT_boxCTG,.categoryNC_Box .fieldsetNC_boxCTG {
+    height: 30vh;
+    
+}
+
+.categorysNT,.categorysNC {
+    font-size: 15px;
+    padding: 0;
+    bottom: 3%;
+}
+
+
+.category_NTP,.category_NCP {
+    display: flex;
+    font-weight: 600;
+    padding-left: 3px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+
+/* Caixa para mover o botão salvar e o detalhes NOVO BRINQUEDO */
+.fieldsetNT_btn,.fieldsetNC_btn {
+    margin-top: 1%;
+    display: flex;
+    align-items: baseline;
+    width: 50vw;
+    height: 5vh;
+    justify-content: center;
+}
+
+.fieldsetNT_btn button,.fieldsetNC_btn button {
+    text-decoration: none;
+    width: 30%;
+    height: 5vh;
+    border-radius: 5px;
+    background-color: #1e3a8a;
+    color: white;
+    transition: background-color 0.4s;
+    transition: transform 0.4s;
+    border: none;
+    border-radius: 30px;
+}
+
+.fieldsetNT_btn button:hover,.fieldsetNC_btn button:hover{
+    background-color: #3a5cbb;
+    transform: scale(1.1);
+}
+
+/* Fim tela NOVO BRINQUEDO */
+
+
+
+/* Tela EDITAR BRINQUEDO */
+
+.title_textET,.title_textEC {
+    width: 100%;
+    display: flex;
+    text-align: left;
+}
+
+.Text_ET,.Text_EC {
+    font-size: 18px;
+    border-bottom: 1px solid black;
+}
+
+.Container_EditToy,.Container_EditCategory {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+#Content_EditToy,#Content_EditCategory {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #d3d2d2;
+    width: 60vw;
+    height: 100%;
+}
+
+.fieldsetET_box,.fieldsetEC_box  {
+    margin-top: 1%;
+    display: flex;
+    flex-flow: row wrap;
+    width: 50vw;
+    align-items: center;
+    padding: 20px;
+
+}
+
+.categoryET_Box,.categoryEC_Box {
+    display: flex;
+    width: 50vw;
+    height: 30vh;
+}
+
+.categoryET_Box .fieldsetET_boxCTG,.categoryEC_Box .fieldsetEC_boxCTG {
+    height: 30vh;
+}
+
+.categorysET,.categorysEC {
+    font-size: 15px;
+    padding: 0;
+    bottom: 3%;
+}
+
+.category_ETP,.category_ETP {
+    display: flex;
+    font-weight: 600;
+    padding-left: 3px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+/* Caixa para mover o botão salvar e o detalhes EDITAR BRINQUEDO */
+.fieldsetET_btn,.fieldsetEC_btn {
+    margin-top: 1%;
+    display: flex;
+    align-items: baseline;
+    width: 50vw;
+    height: 5vh;
+    justify-content: center;
+}
+
+.fieldsetET_btn button,.fieldsetEC_btn button {
+    text-decoration: none;
+    width: 30%;
+    height: 5vh;
+    border-radius: 5px;
+    background-color: #1e3a8a;
+    color: white;
+    transition: background-color 0.4s;
+    transition: transform 0.4s;
+    border: none;
+}
+
+.fieldsetET_btn button:hover,.fieldsetEC_btn button:hover{
+    background-color: #3a5cbb;
+    transform: scale(1.1);
+}
+
+
+/* FIM Caixa MOVER E BOTÃO SALVAR */
+
+/* FIM EDITAR BRINQUEDO */
+
+
+
+/* inputs com classe para modificação propria */
+
+/* Novo Brinquedo */
+
+
+.price_nt,.price_nc {
+    width: 8vw;
+    height: 4vh;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+} 
+
+.details_BoxNT,.details_BoxNC {
+    width: 50vw;
+    height: 20vh;
+    padding: 12px 20px;
+    resize: none;
+    font-family: "DM Sans", sans-serif;
+    border-radius: 15px;
+}
+
+
+/* Editar Brinquedo */
+
+.price_et,.price_ec {
+    width: 8vw;
+    height: 4vh;
+}
+
+.details_BoxET,.details_BoxEC {
+    width: 50vw;
+    height: 20vh;
+    padding: 12px 20px;
+    resize: none;
+    font-family: "DM Sans", sans-serif;
+    border-radius: 15px;
+}
+
+/* Fim INPUTS COM CLASSE */
+
+/* INICIO INPUTS E LABELS GERAIS */
+input {
+    width: 100%;
+    height: 5vh;
+    padding: 12px 20px;
+    border:1px solid #0f172a;
+    border-radius: 30px;
+    
+}
+
+input[type="file"] {
+    width: 50%;
+    height: 6vh;
+    padding: 12px 20px;
+    border: 1px solid #0f172a;
+}
+
+input[type="checkbox"] {
+    width: 3vw;
+}
+input{
+    font-family: "DM Sans", sans-serif;
+}
+
+label {
+    position: relative;
+    font-weight: 600;
+    padding-left: 3px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    font-size: 20px;
+    font-family: "DM Sans", sans-serif;
+}
+
+
+.img_show{
+    margin-top: 3%;
+    width: 400px;
+    height: 400px;
+    border: 1px solid black; 
+    border-radius: 15px;
+}
+/* Fim Inputs e Labels Unicos */

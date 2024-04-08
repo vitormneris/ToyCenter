@@ -36,8 +36,9 @@ public class CategoryDAO {
 			
 			while (rs.next()) {
 				int categorycode = rs.getInt("category_code");
-				String name = rs.getString("category_name");
-				category = new Category(categorycode, name, tcd.getAllToyByCategory(category));
+				String categoryName = rs.getString("category_name");
+				String categoryImage = rs.getString("category_image");
+				category = new Category(categorycode, categoryName, categoryImage, tcd.getAllToyByCategory(category));
 				categoryStatus = true;
 			}
 			
@@ -65,12 +66,13 @@ public class CategoryDAO {
 
 			while (rs.next()) {
 				int categoryCode = rs.getInt("category_code");
-				String name = rs.getString("category_name");
+				String categoryName = rs.getString("category_name");
+				String categoryImage = rs.getString("category_image");
 				Category category = new Category(rs.getInt("category_code"));
 				if (yes) {
-					list.add(new Category(categoryCode, name, tcd.getAllToyByCategory(category)));
+					list.add(new Category(categoryCode, categoryName, categoryImage, tcd.getAllToyByCategory(category)));
 				} else {
-					list.add(new Category(categoryCode, name));
+					list.add(new Category(categoryCode, categoryName, categoryImage));
 
 				}
 				categoryStatus = true;
@@ -94,13 +96,13 @@ public class CategoryDAO {
 		if (category == null)
 			throw new Exception("The value don't can be null");
 		try {
-			String SQL = "INSERT INTO category_table (category_code, category_name) VALUES (?, ?)";
+			String SQL = "INSERT INTO category_table (category_name, category_image) VALUES (?, ?)";
 			ps = conn.prepareStatement(SQL);
 			
-			ps.setInt(1, category.getCategoryCode());
-			ps.setString(2, category.getCategoryName());
+			ps.setString(1, category.getCategoryName());
+			ps.setString(2, category.getCategoryImage());
 
-			
+	
 			if (ps.executeUpdate() > 0) {
 				return true;
 			} else {
@@ -120,11 +122,12 @@ public class CategoryDAO {
 			throw new Exception("The value don't can be null");
 		}
 		try {
-			String SQL = "UPDATE category_table SET category_name = ? WHERE category_code = ?";
+			String SQL = "UPDATE category_table SET category_name = ?, category_image = ? WHERE category_code = ?";
 			ps = conn.prepareStatement(SQL);
 			
 			ps.setString(1, category.getCategoryName());
-			ps.setInt(2, category.getCategoryCode());
+			ps.setString(2, category.getCategoryImage());
+			ps.setInt(3, category.getCategoryCode());
 				
 			if (ps.executeUpdate() > 0) {
 				return true;

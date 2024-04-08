@@ -90,6 +90,37 @@ public class ToyDAO {
 			ConnectionFactory.closeConnection(conn, ps, rs);
 		}
 	}
+	
+	public Toy getLastToy() throws Exception {
+		try {
+			ps = conn.prepareStatement("SELECT * FROM toy_table WHERE toy_code = LAST_INSERT_ID()");
+			rs = ps.executeQuery();
+			Toy toy = null;
+			boolean toyStatus = false;
+
+			while (rs.next()) {
+				int toycode = rs.getInt("toy_code");
+				String image = rs.getString("toy_image");
+				String name = rs.getString("toy_name");
+				String brand = rs.getString("toy_brand");
+				float price = rs.getFloat("toy_price");
+				String description = rs.getString("toy_description");
+				String details = rs.getString("toy_details");
+				toy = new Toy(toycode, image, name, brand, price, description, details);
+				toyStatus = true;
+			}
+			
+			if (!toyStatus) 
+				return null;
+			return toy;
+		} catch (SQLException e) {
+			throw new SQLException("Erro no banco de dados - Não foi possível encontrar o brinquedo." + "asd");
+		} catch (Exception e) {
+			throw new Exception("Erro inesperado - Não foi possível encontrar o brinquedo.");
+		} finally {
+			ConnectionFactory.closeConnection(conn, ps, rs);
+		}
+	}
 
 	public Boolean insertToy(Toy toy) throws Exception {
 		if (toy == null)
@@ -98,27 +129,26 @@ public class ToyDAO {
 			ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
 			
 			String SQL = "INSERT INTO toy_table "
-				       + "(toy_code, toy_image, toy_name, toy_brand, toy_price, toy_description, toy_details) "
-					   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+				       + "(toy_image, toy_name, toy_brand, toy_price, toy_description, toy_details) "
+					   + "VALUES (?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(SQL);
 			
-			ps.setInt(1, toy.getToyCode());
-			ps.setString(2, toy.getToyImage());
-			ps.setString(3, toy.getToyName());
-			ps.setString(4, toy.getToyBrand());
-			ps.setFloat(5, toy.getToyPrice());
-			ps.setString(6, toy.getToyDescription());
-			ps.setString(7, toy.getToyDetails());
+			ps.setString(1, toy.getToyImage());
+			ps.setString(2, toy.getToyName());
+			ps.setString(3, toy.getToyBrand());
+			ps.setFloat(4, toy.getToyPrice());
+			ps.setString(5, toy.getToyDescription());
+			ps.setString(6, toy.getToyDetails());
 			
 			if (ps.executeUpdate() > 0) {	
 				for (Category category : toy.getToyCategories()) 
-					if (!toyCategoryDAO.toyCategoryInsert(toy, category)) 
+					if (!toyCategoryDAO.toyCategoryInsert(getLastToy(), category)) 
 						return false;
 				return true;
 			} 
 			return false;
 		} catch (SQLException e) {
-			throw new SQLException("Erro no banco de dados - Não foi possível inserir o brinquedo.");
+			throw new SQLException("Erro no banco de dados - Não foi possível inserir o brinquedo." + e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Erro inesperado - Não foi possível inserir o brinquedo.");
 		} finally {
