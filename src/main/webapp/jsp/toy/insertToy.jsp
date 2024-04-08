@@ -93,6 +93,7 @@
                 </div>
             </div>         
 
+			<br><br>
 			<div class="details_NT">
 	            <label for="details_NT">Detalhes</label>
 	            <textarea class="details_BoxNT" maxlength="1080" placeholder="Escreva os Detalhes do Brinquedo"

@@ -24,12 +24,10 @@ body {
     width: 15vw;
     background-color: #0f172a;
     border-bottom: 1px solid white;
-    /* border-right: 1px solid white; */
 }
 
 .logo img {
     width: 100%;
-
 }
 
 .store_name {
@@ -126,7 +124,6 @@ form {
     background: #d3d2d2;
     width: 60vw;
     height: 100%;
-    
 }
 
 .title_textNT,.title_textNC {
@@ -140,9 +137,6 @@ form {
     border-bottom: 1px solid black;
 }
 
-
-
-
 .fieldsetNT_box,.fieldsetNC_box {
     margin-top: 1%;
     display: flex;
@@ -150,18 +144,15 @@ form {
     width: 50vw;
     align-items: center;
     padding: 20px;
-    
-   
 }
 
 .fieldsetNT_box #file_NT, input[type=file],.fieldsetNC_box #file_NC, input[type=file]  {
     border: none;
     background-color: #1e3a8a;
 }
-input[type=file]{
-    
-    color: white;
 
+input[type=file] {
+    color: white;
 }
 
 .categoryNT_Box,.categoryNC_Box {
@@ -172,7 +163,6 @@ input[type=file]{
 
 .categoryNT_Box .fieldsetNT_boxCTG,.categoryNC_Box .fieldsetNC_boxCTG {
     height: 30vh;
-    
 }
 
 .categorysNT,.categorysNC {
@@ -180,7 +170,6 @@ input[type=file]{
     padding: 0;
     bottom: 3%;
 }
-
 
 .category_NTP,.category_NCP {
     display: flex;
@@ -192,7 +181,6 @@ input[type=file]{
     box-sizing: border-box;
     font-size: 20px;
 }
-
 
 /* Caixa para mover o botão salvar e o detalhes NOVO BRINQUEDO */
 .fieldsetNT_btn,.fieldsetNC_btn {
@@ -223,8 +211,6 @@ input[type=file]{
 }
 
 /* Fim tela NOVO BRINQUEDO */
-
-
 
 /* Tela EDITAR BRINQUEDO */
 
@@ -375,7 +361,6 @@ input {
     padding: 12px 20px;
     border:1px solid #0f172a;
     border-radius: 30px;
-    
 }
 
 input[type="file"] {
@@ -412,4 +397,3 @@ label {
     border: 1px solid black; 
     border-radius: 15px;
 }
-/* Fim Inputs e Labels Unicos */

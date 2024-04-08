@@ -1,53 +1,61 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #0f172a;
-    font-family: "DM Sans", sans-serif;
-}
- .containerToy{
-    margin-top: 5vh;
+.containerToy {
+    margin-top: 50px;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
-.toyContent{
+.toyContent {
     display: flex;
     background-color: #e9ebfe;
-    width: 600px;
-    height: 600px;
-    border: 1px solid black;
+    width: 80%;
+    max-width: 800px;
     border-radius: 15px;
-    padding: 20px 20px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }
-.toyInfo{
+
+.toyInfo {
     display: flex;
-    
-    margin-top: 0px;
-  
+    flex-direction: column;
 }
-.toyInfo img{
+
+.toyInfo img {
     border-radius: 15px;
-    max-width: 350px;
-    max-height: 300px;
+    max-width: 100%;
+    height: auto;
+    margin-right: 20px;
+    border: 2px solid #000;
+    border-radius: 15px;
+}
 
+.toyInfo h2 {
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 10px;
 }
-.toyInfo h2{
-    padding: 12px 20px;
-}
-.toyInfo p{
-    padding: 12px 20px;
-} 
 
-.name{
-    font-weight: 700;
-    font-size: 26px;
+.toyInfo p {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
-.price{
-    font-weight: 700;
-    font-size: 26px;
+
+.brand {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.description {
+    margin-bottom: 20px;
+}
+
+.details {
+    margin-bottom: 20px;
 }

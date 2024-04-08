@@ -1,76 +1,104 @@
 .containerAdm {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 .camada0 {
-    display: flex;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
 }
 
 .camada1 {
-    justify-content: center;
     background-color: #e9ebfe;
-    padding: 12px 20px;
-    border-radius: 5px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
 }
 
 .subtitulo {
-    font-weight: 800;
-    border-bottom: 1px solid #1e3a8a;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 10px;
 }
+
 .tabela {
     margin-top: 20px;
-    padding: 12px 20px;
-    border: 2px solid black;
-    border-radius:15px;
+    overflow-x: auto;
 }
 
-th{
-font-weight: 800;
-padding: 15px;
-}
-td{
-    font-weight: 600;
-    padding: 10px 20px;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.trb {
-    background-color: #94a3b8; 
+th, td {
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* .trw {
+.toy-compact-cell {
+    max-width: 200px;
+}
 
-} */
+.toy-compact-cell:hover {
+    overflow: visible;
+    white-space: normal;
+    z-index: 1;
+    background-color: #fff;
+}
 
 
 .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+}
+
+.linkEdit, .linkDelete {
+    padding: 8px 16px;
     border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.linkEdit{
-    color: #1e3a8a;
-    font-weight: 1000;
+.linkEdit {
+    background-color: #1e3a8a;
+    color: white;
 }
 
-.linkDelete{
-    color: red;
-    font-weight: 1000;
+.linkDelete {
+    background-color: red;
+    color: white;
 }
 
-a.botao{
-    border: 1px solid black;
+.linkEdit:hover, .linkDelete:hover {
+    background-color: #072240;
+}
+
+a.botao {
+    display: block;
+    text-align: center;
+    padding: 12px 24px;
+    margin-top: 20px;
     border-radius: 5px;
-    padding: 10px;
+    text-decoration: none;
     color: white;
     background-color: #1e3a8a;
-    width: 100%;
-    margin-top: 42px;
+    transition: background-color 0.3s ease;
 }
 
-a {
-    text-decoration: none;
+a.botao:hover {
+    background-color: #072240;
 }

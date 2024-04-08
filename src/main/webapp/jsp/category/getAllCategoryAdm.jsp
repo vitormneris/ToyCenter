@@ -58,11 +58,11 @@
 								<tr class="trw">
 							<% } %>
 								<td><%= category.getCategoryCode() %></td>
-								<td><%= category.getCategoryName() %></td>
+								<td class="toy-compact-cell" ><%= category.getCategoryName() %></td>
 								<td><img src="<%= category.getCategoryImage() %>" width="100px" height="100px"></td>
 								<td class="controls">
-									<a href="CategoryController?action=deleteCategory&category_code=<%= category.getCategoryCode() %>">Delete</a>
-								    <a href="CategoryController?action=updateCategory&category_code=<%= category.getCategoryCode() %>">Update</a>
+									<a class="linkDelete" href="CategoryController?action=deleteCategory&category_code=<%= category.getCategoryCode() %>">Delete</a>
+								    <a class="linkEdit" href="CategoryController?action=updateCategory&category_code=<%= category.getCategoryCode() %>">Update</a>
 								</td>
 							</tr>
 						<%

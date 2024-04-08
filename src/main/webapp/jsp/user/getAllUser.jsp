@@ -60,9 +60,9 @@
 							<tr class="trw">
 						<% } %>
 							<td><%= user.getUserCode() %></td>
-							<td><%= user.getUserName() %></td>
-						    <td><%= user.getUserEmail() %></td>
-							<td><%= user.getUserPassword() %></td>
+							<td class="toy-compact-cell" ><%= user.getUserName() %></td>
+						    <td class="toy-compact-cell" ><%= user.getUserEmail() %></td>
+							<td class="toy-compact-cell"><%= user.getUserPassword() %></td>
 
 							<td class="controls">
 							    <a  class="linkDelete" href="UserController?action=deleteUser&user_code=<%= user.getUserCode() %>">Delete</a>

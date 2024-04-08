@@ -73,21 +73,21 @@
 									<img src="<%= toy.getToyImage() %>" width="100px" height="100px">
 								</a>
 							</td>
-							<td><%= toy.getToyName() %></td>
-							<td>
+							<td class="toy-compact-cell"  ><%= toy.getToyName() %></td>
+							<td class="toy-compact-cell" >
 								<% for (Category category : toy.getToyCategories()) { 
 										out.print(category.getCategoryName()); %> <br>
 								<%	
 									} 
 								%> 
 							</td>
-							<td><%= toy.getToyBrand() %></td>
+							<td class="toy-compact-cell" ><%= toy.getToyBrand() %></td>
 							<td><%= toy.getToyPrice() %></td>
-							<td><%= toy.getToyDescription() %></td>
-							<td><%= toy.getToyDetails() %></td>
+							<td class="toy-compact-cell"  ><%= toy.getToyDescription() %></td>
+							<td class="toy-compact-cell" ><%= toy.getToyDetails() %></td>
 							<td class="controls">
-								<a class="linkEdit" href="ToyController?action=deleteToy&toy_code=<%= toy.getToyCode() %>">Delete</a>
-							    <a class="linkDelete" href="ToyController?action=updateToy&toy_code=<%= toy.getToyCode() %>">Update</a>
+								<a class="linkDelete" href="ToyController?action=deleteToy&toy_code=<%= toy.getToyCode() %>">Delete</a>
+							    <a class="linkEdit" href="ToyController?action=updateToy&toy_code=<%= toy.getToyCode() %>">Update</a>
 							</td>
 						</tr>
 					<%
