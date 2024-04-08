@@ -86,14 +86,13 @@ public class UserDAO {
 			throw new Exception("The value don't can be null");
 		try {			
 			String SQL = "INSERT INTO user_table "
-				       + "(user_code, user_name, user_email, user_password) "
-					   + "VALUES (?, ?, ?, ?)";
+				       + "(user_name, user_email, user_password) "
+					   + "VALUES (?, ?, ?)";
 			ps = conn.prepareStatement(SQL);
 			
-			ps.setInt(1, user.getUserCode());
-			ps.setString(2, user.getUserName());
-			ps.setString(3, user.getUserEmail());
-			ps.setString(4, user.getUserPassword());
+			ps.setString(1, user.getUserName());
+			ps.setString(2, user.getUserEmail());
+			ps.setString(3, user.getUserPassword());
 
 			if (ps.executeUpdate() > 0) 
 				return true;

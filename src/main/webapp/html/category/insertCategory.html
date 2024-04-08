@@ -1,32 +1,63 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Category page</title>
-	</head>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/styleTest.css">
+    <title>Novo Brinquedo</title>
+</head>
 <body>
+    <header>
+        <nav class="nav-bar">
+            <div class="logo">
+           		<a href="ToyController?action=getAllToy">
+                <img src="../../image/newLogo.svg" alt=""></a>
+            </div>
+
+            <div class="store_name">
+                <h1>TOY CENTER</h1>
+            </div>
+
+            <div class="space"></div>
+        </nav>
+
+    </header>
+
+    <nav class="menu">
+        <div class="menuList">
+            <a href="../../ToyController?action=getAllToy">Home</a>
+            <a href="../../CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="../../ToyController?action=getAllToyAdm">Administração</a>
+            <a href="../sobre_a_equipe.html">Sobre a Equipe</a>
+        </div>
+    </nav>
+    
 	<ul>
 		<li><a href="../../CategoryController?action=getAllCategoryAdm">Back</a></li>
 	</ul>
-	<form action="../../CategoryController" method="POST">
+	
+    <main id="Main_ContentNC" class="Container_NewCategory">
+    	<form id="Content_NewCategory" action="../../CategoryController" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="action" value="insertCategory">
-		<table border="1">
-			<tr>
-				<th colspan="2"> <h1>Category registration</h1> </th>
-			</tr>
-			<tr>
-				<td>Code:</td>
-				<td> <input type="number" name="category_code" size="10" placeholder="Type a code" required> </td>
-			</tr>
-			<tr>
-				<td>Name:</td>
-				<td> <input type="text" name="category_name" size="150" placeholder="Type a name" required> </td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"> <input type="submit" value="Submit"> </td>
-			</tr>
-		</table>
-	</form>
+            <div class="title_textNC">
+            <h1 class="Text_NC">Categoria: Nova Categoria</h1>
+            </div>
+
+            <div class="fieldsetNC_box">
+                <label for="name_NC">Nome</label>
+                <input type="text" placeholder="Digite o Nome da Categoria" name="category_name" id="name_NC" required>
+            </div>
+           
+            <div class="fieldsetNC_box">
+            <label for="file_NC">Imagem</label>
+           		<input type="file" name="category_image" id="file_NC" required>
+            </div>
+
+        
+            <div class="fieldsetNC_btn">
+	            <input id="btn_NC" type="submit" value="Salvar">
+            </div>
+        </form>
+    </main>
 </body>
 </html>

@@ -4,37 +4,91 @@
 <%@ page import="br.edu.toycenter.model.Category"%>
 <%@ page import="br.edu.toycenter.model.Toy"%>
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Toy Center</title>
-	</head>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styleTest.css">
+    <title>Editar Brinquedo</title>
+</head>
 <body>
-	<ul>
+    <header>
+        <nav class="nav-bar">
+            <div class="logo">
+           		<a href="ToyController?action=getAllToy">
+                <img src="image/newLogo.svg" alt=""></a>
+            </div>
+
+            <div class="store_name">
+                <h1>TOY CENTER</h1>
+            </div>
+
+            <div class="space"></div>
+        </nav>
+
+    </header>
+
+    <nav class="menu">
+        <div class="menuList">
+            <a href="ToyController?action=getAllToy">Home</a>
+            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToyAdm">Administração</a>
+            <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
+        </div>
+    </nav>
+    
+    <ul>
 		<li><a href="ToyController?action=getAllToyAdm">Back</a></li>
 	</ul>
-	<h2>Update Toy</h2>
-	<jsp:useBean id="toy" scope="session" class="br.edu.toycenter.model.Toy" />
 
-	<form action="ToyController?action=updateToy" method="POST" enctype="multipart/form-data">
-		<table border="1">
-			<tr>
-				<td>Toy code</td>
-				<td><input type="number" size="10" name="toy_code" value="<%=toy.getToyCode()%>" readonly="readonly" required></td>
-			</tr>
-			<tr>
-				<td>Toy image</td>
-				<td><img src="<%=toy.getToyImage()%>" width="400px" height="400px"> <br> <input type="file" name="toy_image"></td>
-			</tr>
-			<tr>
-				<td>Toy name</td>
-				<td><input type="text" size="150" name="toy_name" value="<%=toy.getToyName()%>" required></td>
-			</tr>
-			<tr>
-				<td>Category:</td>
-				<td>
-					<%
+    <main id="Main_ContentET" class="Container_EditToy">
+        <jsp:useBean id="toy" scope="session" class="br.edu.toycenter.model.Toy" />
+        <form id="Content_EditToy" action="ToyController?action=updateToy" method="POST" enctype="multipart/form-data">
+
+            <div class="title_textET">
+            <h1 class="Text_ET">Catálogo de Brinquedos: Editar Brinquedo</h1>
+            </div>
+            
+            <div class="fieldsetET_box">
+                <label for="code_ET">Code</label>
+                <input type="number" placeholder="Digite o Código do Brinquedo" readonly="readonly" name="toy_code" id="code_ET" 
+                	value="<%=toy.getToyCode()%>">
+            </div>
+
+            <div class="fieldsetET_box">
+                <label for="name_ET">Nome</label>
+                <input type="text" placeholder="Digite o Novo Nome do Brinquedo" name="toy_name" id="name_ET" value="<%=toy.getToyName()%>">
+            </div>
+            
+            <div class="fieldsetET_box">
+            <label for="brand_ET">Marca</label>
+            <input type="text" placeholder="" name="toy_brand" id="brand_ET" value="<%=toy.getToyBrand()%>">
+            </div>
+
+            <div class="fieldsetET_box">
+            <label for="description_ET">Descrição</label>
+            <input type="text" placeholder="Digite a Nova Descrição do Brinquedo" name="toy_description" id="description_ET" 
+            	value="<%=toy.getToyDescription()%>">
+            </div>
+            
+            <div class="fieldsetET_box">
+            <label for="file_ET">Imagem</label>
+            <input type="file" name="toy_image" id="file_ET">
+            <img class="img_show" src="<%=toy.getToyImage()%>" width="400px" height="400px">
+            </div>
+
+            <div class="fieldsetET_box">
+            <label for="price_ET">Valor R$:</label>
+            <input type="number" placeholder="Digite o Valor" min="0" step="0.01" class="price_et" name="toy_price"
+            	 id="price_ET" value="<%=toy.getToyPrice()%>">
+            </div>
+
+            <div class="categoryET_Box">
+                <div class="fieldsetET_boxCTG">
+
+                    <p class="category_ETP">Catégorias:</p>
+    
+    				<%
 					List<Category> list = (ArrayList) request.getAttribute("categoryList");
 					String message = (String) request.getAttribute("message");
 					for (Category category : list) {
@@ -42,45 +96,40 @@
 						for (Category toyCategory : toy.getToyCategories()) {
 							if (category.getCategoryCode() == toyCategory.getCategoryCode()) {
 								%>
-								<label> <%= category.getCategoryName() %>
-								<input type="checkbox" name="toy_categories" value="<%= category.getCategoryCode() %>" checked/> </label>
+								 <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>" checked>
+                  				 <label for="category_NT1" class="categorysET" ><%= category.getCategoryName() %></label><br>
 				  				<%
 				  				status = true;
 				  				break;
 							}
 						}
 						if (!status) {
-					%>
-						<label> <%= category.getCategoryName() %>
-						<input type="checkbox" name="toy_categories" value="<%= category.getCategoryCode() %>" /> </label>
-					
+					%>			 
+					    <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>">
+                  		<label for="category_NT1" class="categorysET" ><%= category.getCategoryName() %></label><br>
 	  				<%
 						}
 					}
-					%>
-  				</td>
-    		<tr>
-			<tr>
-				<td>Toy brand:</td>
-				<td> <input type="text" name="toy_brand" size="150" value="<%=toy.getToyBrand()%>" placeholder="Type a brand" required> </td>
-			</tr>
-			<tr>
-				<td>Toy price</td>
-				<td><input type="number" min="0" step="0.01" name="toy_price" value="<%=toy.getToyPrice()%>" required></td>
-			</tr>
-			<tr>
-				<td>Toy description</td>
-				<td><input type="text" size="150" name="toy_description" value="<%=toy.getToyDescription()%>" required></td>
-			</tr>
-			<tr>
-				<td>Toy details</td>
-				<td><input type="text" size="150" name="toy_details" value="<%=toy.getToyDetails()%>" required></td>
-			</tr>
-			<tr>
-				<th colspan="2"><input type="submit" value="Submit" /></th>
-			</tr>
-		</table>
-		<p> <% if (!(message == null)) out.print(message); %> </p>
-	</form>
+					%> 
+    				
+                </div>
+            </div>
+
+			 <label for="details_ET">Detalhes</label>
+            <textarea class="details_BoxET" maxlength="1080" placeholder="Escreva os Novos Detalhes do Brinquedo" name="toy_details" 
+            id="details_NT"><%=toy.getToyDetails()%></textarea>
+
+
+            <div class="fieldsetET_btn">
+            	<input id="btn_ET" type="submit" value="Salvar">
+            </div>
+             
+             <p> <% if (!(message == null)) out.print(message); %> </p>
+            
+        </form>
+        
+    </main>
 </body>
 </html>
+
+

@@ -110,7 +110,7 @@ public class ToyCategoryDAO {
 	
 	public List<Category> getAllCategories(Toy toy) throws Exception {
 		try {
-			String query = "SELECT DISTINCT c.category_code, c.category_name "
+			String query = "SELECT DISTINCT c.category_code, c.category_name, c.category_image "
 					+ "FROM category_table c "
 					+ "INNER JOIN toy_category tc ON tc.category_code_fk = c.category_code "
 					+ "INNER JOIN toy_table t ON tc.toy_code_fk = ?;";
@@ -123,9 +123,11 @@ public class ToyCategoryDAO {
 			while (rs.next()) {
 				int categoryCode = rs.getInt("category_code");
 				String categoryName = rs.getString("category_name");
-				
+				String categoryImage = rs.getString("category_image");
+
 				Category category = new Category(categoryCode);
-				category = new Category(categoryCode, categoryName);
+				
+				category = new Category(categoryCode, categoryName, categoryImage);
 				categories.add(category);
 			}
 			

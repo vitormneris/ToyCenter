@@ -166,12 +166,16 @@ public class ToyController extends HttpServlet {
 	
 	private Toy createObjectToy(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Toy toy = new Toy();
-		
-		if (request.getParameter("toy_categories") == null) throw new Exception("Toy categories can not be null");
+
 		
 		try {
+			if (!(request.getParameter("action").equals("insertToy"))) {
+				inputCheck(request, response, "updateToy");
+				toy.setToyCode(Integer.parseInt(request.getParameter("toy_code")));
+			} else {
+				inputCheck(request, response, "insertToy");
+			}
 			toy = setToyCategories(request, response, toy);
-			toy.setToyCode(Integer.parseInt(request.getParameter("toy_code")));
 			toy.setToyImage(uploadImage(request, response));			
 			toy.setToyName(request.getParameter("toy_name"));
 			toy.setToyBrand(request.getParameter("toy_brand"));
@@ -192,11 +196,11 @@ public class ToyController extends HttpServlet {
 	}
 	
 	private String uploadImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String path = "/home/vitor/eclipse-workspace/ToyCenter/src/main/webapp/image/dataBaseImage";		
+		String path = "/home/vitor/eclipse-workspace/ToyCenter/src/main/webapp/image/dataBaseImageToy";		
 		for(Part part : request.getParts()) {
 			if (part.getName().equals("toy_image") && part.getSize() > 0) {
 				part.write(path + File.separator + part.getSubmittedFileName());
-				return "image/dataBaseImage" + File.separator + part.getSubmittedFileName();
+				return "image/dataBaseImageToy" + File.separator + part.getSubmittedFileName();
 			}
 		}
 		
@@ -229,5 +233,27 @@ public class ToyController extends HttpServlet {
 
 		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
 			forwardToPage(request, response, "html/login.html");
+	}
+	
+	private void inputCheck(HttpServletRequest request, HttpServletResponse response, String destiny) throws ServletException, IOException {
+		boolean error = false;
+		String msg = "";
+		
+		if (request.getParameter("toy_categories") == null) {	    	
+			msg = "Selecione ao menos uma categoria.";
+			error = true;
+		}
+		
+		if (request.getParameter("toy_details").trim().equals("") || request.getParameter("toy_details") == null) {
+			msg = "Detalhes não pode ficar em branco.";
+			error = true;
+        }
+		
+		if (error == true) {
+			String js = "<script>window.location.href='ToyController?action=" + destiny + "&message1=" + msg + "';</script>";
+			
+			request.setAttribute("message", js);
+	    	forwardToPage(request, response, "index.jsp");
+		}
 	}
 }

@@ -1,0 +1,76 @@
+.containerAdm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.camada0 {
+    display: flex;
+}
+
+.camada1 {
+    justify-content: center;
+    background-color: #e9ebfe;
+    padding: 12px 20px;
+    border-radius: 5px;
+}
+
+.subtitulo {
+    font-weight: 800;
+    border-bottom: 1px solid #1e3a8a;
+}
+.tabela {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border: 2px solid black;
+    border-radius:15px;
+}
+
+th{
+font-weight: 800;
+padding: 15px;
+}
+td{
+    font-weight: 600;
+    padding: 10px 20px;
+}
+
+.trb {
+    background-color: #94a3b8; 
+}
+
+/* .trw {
+
+} */
+
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.linkEdit{
+    color: #1e3a8a;
+    font-weight: 1000;
+}
+
+.linkDelete{
+    color: red;
+    font-weight: 1000;
+}
+
+a.botao{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    background-color: #1e3a8a;
+    width: 100%;
+    margin-top: 42px;
+}
+
+a {
+    text-decoration: none;
+}

@@ -176,7 +176,7 @@ public class UserController extends HttpServlet {
 
 		String msg =  userDAO.updateUser(user) ? "User updated sucessfully" : "Unable to update user";
 	    request.setAttribute("message", msg);
-		getOneUser(request, response);
+	    getAllUser(request, response);
 	} 
 	
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -191,7 +191,9 @@ public class UserController extends HttpServlet {
 	private User createObjectUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		User user = new User();
 		try {
-			user.setUserCode(Integer.parseInt(request.getParameter("user_code")));
+			if (!request.getParameter("action").equals("insertUser")) {
+				user.setUserCode(Integer.parseInt(request.getParameter("user_code")));
+			}
 			user.setUserName(request.getParameter("user_name"));
 			user.setUserEmail(request.getParameter("user_email"));
 			user.setUserPassword(request.getParameter("user_password"));
