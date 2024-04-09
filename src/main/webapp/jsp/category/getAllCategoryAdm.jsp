@@ -31,6 +31,9 @@
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
+    
+    <a class="botao1" href="ToyController?action=getAllToyAdm">Back</a>
+    
 
 	<div class="containerAdm">
 	  <div class="camada0">
@@ -43,7 +46,7 @@
 	                        <th>Código da categoria</th>
 	                        <th>Imagem da categoria</th>
 	                        <th>Nome da categoria</th>
-	                        <th>User Operations</th>
+	                        <th>Operações Categoria</th>
 	                    </tr>
 	                </thead>
 	                <tbody>                   
@@ -61,7 +64,7 @@
 								<td class="toy-compact-cell" ><%= category.getCategoryName() %></td>
 								<td><img src="<%= category.getCategoryImage() %>" width="100px" height="100px"></td>
 								<td class="controls">
-									<a class="linkDelete" href="CategoryController?action=deleteCategory&category_code=<%= category.getCategoryCode() %>">Delete</a>
+									<a class="linkDelete" onclick="deleteCategory(<%= category.getCategoryCode() %>)">Delete</a>
 								    <a class="linkEdit" href="CategoryController?action=updateCategory&category_code=<%= category.getCategoryCode() %>">Update</a>
 								</td>
 							</tr>
@@ -73,9 +76,29 @@
 	        </div>
 	        <br>
 	        <a class="botao" href="html/category/insertCategory.html">Adicionar</a>
-		    <a class="botao" href="ToyController?action=getAllToyAdm">Toy ADM</a>
 	        <br><br>
             <p> <% if (!(message == null)) out.print(message); %> </p>
+            <script>
+			function deleteCategory(number) {
+			    if (window.confirm("Do you really want to delete the category?")) {
+			        console.log("Category deleted successfully!");
+			        fetch('http://localhost:8080/ToyCenter/CategoryController?action=deleteCategory&category_code=' + number, {
+			            method: 'POST', 
+			        })
+			        .then(response => {
+			            console.log('Server response:', response);
+			            window.location.href = "http://localhost:8080/ToyCenter/CategoryController?action=getAllCategoryAdm";
+			        })
+			        .catch(error => {
+			            console.error('Request error:', error);
+			        });
+			    } else {
+			        console.log("Deletion canceled by category.");
+			        
+			    }
+			}
+		
+		  </script>
 	    </div>
 	    </div>
     </div>

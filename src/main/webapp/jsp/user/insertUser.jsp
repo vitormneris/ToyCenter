@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
-    <title>Cadastro</title>
+    <title>Atualizar usuário</title>
 </head>
 <body>
     <header>
@@ -41,15 +41,13 @@
         </div>
     </nav>
     
-    <ul>
-		<li><a href="UserController?action=getAllUser">Back</a></li>
-	</ul>
+	<a class="botao" href="UserController?action=getAllUser">Back</a>
 
     <div class="cadastro_container">
         <form id="cadastro_form" action="UserController" method="POST">
         	<% String message = (String) request.getAttribute("message"); %>
 			<input type="hidden" name="action" value="insertUser">
-            <h1 class="cadastro_title">Cadastre-se</h1>
+            <h1 class="cadastro_title">Inserir usuário</h1>
 
             <label for="nome">Nome</label>
             <input type="text" name="user_name" id="nome" placeholder="Type a name" required>

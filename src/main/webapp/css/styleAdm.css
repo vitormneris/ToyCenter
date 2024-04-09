@@ -102,3 +102,21 @@ a.botao {
 a.botao:hover {
     background-color: #072240;
 }
+
+a.botao1 {
+	width: 100px;
+	margin-left: 20px;
+    display: block;
+    text-align: center;
+    padding: 12px 24px;
+    margin-top: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    background-color: #1e3a8a;
+    transition: background-color 0.3s ease;
+}
+
+a.botao1:hover {
+    background-color: #072240;
+}

@@ -35,9 +35,9 @@
         </div>
     </nav>
 	
-	<ul>
-		<li><a href="CategoryController?action=getAllCategoryAdm">Back</a></li>
-	</ul>
+
+	<a class="botao" href="CategoryController?action=getAllCategoryAdm">Back</a>
+
 	
     <main id="Main_ContentCT" class="Container_EditCategory">
     	<jsp:useBean id="category" scope="session" class="br.edu.toycenter.model.Category" />

@@ -114,6 +114,7 @@ public class ToyController extends HttpServlet {
 		
 		if (list != null) {
 			request.setAttribute("toyList", list);
+
 	    	String msg = (adm) ? "jsp/toy/getAllToyAdm.jsp" :"jsp/toy/getAllToy.jsp";
 			
 			forwardToPage(request, response, msg);
@@ -152,7 +153,7 @@ public class ToyController extends HttpServlet {
 
 		String msg =  td.updateToy(toy) ? "Toy updated sucessfully" : "Unable to update toy";
 	    request.setAttribute("message", msg);
-		getOneToy(request, response);
+		getAllToy(request, response, true);
 	} 
 	
 	private void deleteToy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {

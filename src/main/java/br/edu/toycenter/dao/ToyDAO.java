@@ -114,12 +114,10 @@ public class ToyDAO {
 				return null;
 			return toy;
 		} catch (SQLException e) {
-			throw new SQLException("Erro no banco de dados - Não foi possível encontrar o brinquedo." + "asd");
+			throw new SQLException("Erro no banco de dados - Não foi possível encontrar o brinquedo." + e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Erro inesperado - Não foi possível encontrar o brinquedo.");
-		} finally {
-			ConnectionFactory.closeConnection(conn, ps, rs);
-		}
+		} 
 	}
 
 	public Boolean insertToy(Toy toy) throws Exception {
@@ -130,7 +128,7 @@ public class ToyDAO {
 			
 			String SQL = "INSERT INTO toy_table "
 				       + "(toy_image, toy_name, toy_brand, toy_price, toy_description, toy_details) "
-					   + "VALUES (?, ?, ?, ?, ?, ?)";
+					   + "VALUES(?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(SQL);
 			
 			ps.setString(1, toy.getToyImage());
@@ -199,7 +197,6 @@ public class ToyDAO {
 			if (toyCategory) {
 				ToyCategoryDAO toyCategoryDAO = new ToyCategoryDAO();
 				if (!toyCategoryDAO.toyCategoryDelete(toy)) throw new SQLException("SQL error: ");
-				System.out.println("$");
 			}
 			
 			String SQL = "DELETE FROM toy_table WHERE toy_code = ?";

@@ -105,7 +105,7 @@ public class CategoryController extends HttpServlet {
 		
 		if (list != null) {
 			request.setAttribute("categoryList", list);
-			
+
 			String msg = (adm) ? "jsp/category/getAllCategoryAdm.jsp" : "jsp/category/getAllCategory.jsp";
 	    	forwardToPage(request, response, msg);
 		} else {

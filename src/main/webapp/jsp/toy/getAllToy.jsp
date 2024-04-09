@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="css/styleindex.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <title>Toy Center Home</title>
 </head>
 
@@ -47,7 +45,7 @@
     <main class="banner_container">
         <div class="banner_main">
             <div class="banner_content">
-                <img src="image/mp-brinquedos-hotwheels.png" alt="">
+               <img src="image/mp-brinquedos-hotwheels.png" alt="">
             </div>
         </div>
     </main>
@@ -75,7 +73,7 @@
     </div>
     
     <div class="header">
-        <h1>Meninos</h1>
+        <h1>Instrumentos Musicais</h1>
     </div>
     
     <div class="releases_container">
@@ -83,7 +81,7 @@
         <%
 		for (Toy toy : list) {
 			for (Category category : toy.getToyCategories()) {
-				if (category.getCategoryName().equals("Menino")) {
+				if (category.getCategoryName().equals("Instrumentos Musicais")) {
 		%>
             <div class="card">
                 <a href="ToyController?action=getOneToy&toy_code=<%= toy.getToyCode() %>">

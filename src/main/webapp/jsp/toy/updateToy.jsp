@@ -37,9 +37,9 @@
         </div>
     </nav>
     
-    <ul>
-		<li><a href="ToyController?action=getAllToyAdm">Back</a></li>
-	</ul>
+
+	<a class="botao" href="ToyController?action=getAllToyAdm">Back</a>
+
 
     <main id="Main_ContentET" class="Container_EditToy">
         <jsp:useBean id="toy" scope="session" class="br.edu.toycenter.model.Toy" />
@@ -92,29 +92,33 @@
 					List<Category> list = (ArrayList) request.getAttribute("categoryList");
 					String message = (String) request.getAttribute("message");
 					for (Category category : list) {
-						boolean status = false;
-						for (Category toyCategory : toy.getToyCategories()) {
-							if (category.getCategoryCode() == toyCategory.getCategoryCode()) {
-								%>
-								 <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>" checked>
-                  				 <label for="category_NT1" class="categorysET" ><%= category.getCategoryName() %></label><br>
-				  				<%
-				  				status = true;
-				  				break;
-							}
-						}
-						if (!status) {
-					%>			 
-					    <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>">
-                  		<label for="category_NT1" class="categorysET" ><%= category.getCategoryName() %></label><br>
-	  				<%
-						}
+					    boolean status = false;
+					    for (Category toyCategory : toy.getToyCategories()) {
+					        if (category.getCategoryCode() == toyCategory.getCategoryCode()) {
+					%>
+					            <div class="checkbox-label">
+					                <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>" checked>
+					                <label for="category_NT1" class="categorysET"><%= category.getCategoryName() %></label><br>
+					            </div>
+					<%
+					            status = true;
+					            break;
+					        }
+					    }
+					    if (!status) {
+					%>
+					            <div class="checkbox-label">
+					                <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>">
+					                <label for="category_NT1" class="categorysET"><%= category.getCategoryName() %></label><br>
+					            </div>
+					<%
+					    }
 					}
 					%> 
     				
-                </div>
+                </div>                
             </div>
-
+			<br><br><br>
 			 <label for="details_ET">Detalhes</label>
             <textarea class="details_BoxET" maxlength="1080" placeholder="Escreva os Novos Detalhes do Brinquedo" name="toy_details" 
             id="details_NT"><%=toy.getToyDetails()%></textarea>

@@ -16,7 +16,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
-    <title>Cadastro</title>
+    <title>Atualizar usuário</title>
 </head>
 <body>
     <header>
@@ -44,9 +44,7 @@
         </div>
     </nav>
     
-    <ul>
-		<li><a href="UserController?action=getAllUser">Back</a></li>
-	</ul>
+    <a class="botao" href="UserController?action=getAllUser">Back</a>
 
     <div class="cadastro_container">
     	<jsp:useBean id="user" scope="session" class="br.edu.toycenter.model.User" />
@@ -54,7 +52,7 @@
     
         <form id="cadastro_form" action="UserController" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="updateUser">
-            <h1 class="cadastro_title">Update</h1>
+            <h1 class="cadastro_title">Atualizar usuário</h1>
             
             <label for="code">Code</label>
 			<input type="number" size="10" name="user_code" id="code" value="<%=user.getUserCode()%>" readonly="readonly" required>
