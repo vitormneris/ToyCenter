@@ -1,2 +1,2 @@
 Projeto Toy Center
-Este projeto está fechado, apenas desenvolvedores tem acesso
+Projeto de uma loja de brinquedo feito na faculdade.
