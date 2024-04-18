@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-    <title>Toy Center Home</title>
+    <title>Toy Center início</title>
 </head>
 
 <body>
@@ -35,64 +35,89 @@
 
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
     
-    <main class="banner_container">
-        <div class="banner_main">
-            <div class="banner_content">
-               <img src="image/mp-brinquedos-hotwheels.png" alt="">
-            </div>
-        </div>
-    </main>
-
-    <div class="header">
-        <h1>Lançamentos</h1>
-    </div>
-
-    <div class="releases_container">
-        <div class="row">
-        <%
-		List<Toy> list = (ArrayList) request.getAttribute("toyList");
-		for (Toy toy : list) {
-		%>
-            <div class="card">
-                <a href="ToyController?action=getOneToy&toy_code=<%= toy.getToyCode() %>">
-                	<img src="<%= toy.getToyImage() %>" alt="Image" title="Ver mais sobre <%= toy.getToyName() %>"></a>
-                <h4><%= toy.getToyName() %></h4>
-                <p>R$<%= toy.getToyPrice() %></p>
-            </div>
-        <%
-		}
-		%>
-        </div>
-    </div>
-    
-    <div class="header">
-        <h1>Instrumentos Musicais</h1>
-    </div>
-    
-    <div class="releases_container">
-        <div class="row">
-        <%
+    <%
+	List<Toy> list = (ArrayList) request.getAttribute("toyList");
+	boolean show = false;
+	int codeCat = 0;
+	if (list != null) {
 		for (Toy toy : list) {
 			for (Category category : toy.getToyCategories()) {
-				if (category.getCategoryName().equals("Instrumentos Musicais")) {
-		%>
-            <div class="card">
-                <a href="ToyController?action=getOneToy&toy_code=<%= toy.getToyCode() %>">
-                	<img src="<%= toy.getToyImage() %>" alt="Image" title="Ver mais sobre <%= toy.getToyName() %>"></a>
-                <h4><%= toy.getToyName() %></h4>
-                <p>R$<%= toy.getToyPrice() %></p>
-            </div>
-        <%
+				if (category.getCategoryName().equals("Hot Wheels")) {
+					show = true;
+					codeCat = category.getCategoryCode();
 				}
 			}
 		}
+    if (show) { 
+    %>
+    <main class="banner_container">
+        <div class="banner_main">
+            <div class="banner_content">
+               <a href="CategoryController?action=getOneCategory&category_code=<%= codeCat %>" ><img src="image/mp-brinquedos-hotwheels.png" alt=""></a>
+            </div>
+        </div>
+    </main>
+	<%
+		}
+	}
+	%>
+	
+    <div class="header">
+        <h1>Principais brinquedos</h1>
+    </div>
+
+    <div class="releases_container">
+        <div class="row">
+        <%		
+		if (list != null) {
+			for (Toy toy : list) {
+	    %>
+	            <div class="card">
+	                <a href="ToyController?action=getOneToy&toy_code=<%= toy.getToyCode() %>">
+	                	<img src="<%= toy.getToyImage() %>" alt="Image" title="Ver mais sobre <%= toy.getToyName() %>"></a>
+	                <h4><%= toy.getToyName() %></h4>
+	                <p>R$<%= toy.getToyPrice() %></p>
+	            </div>
+	    <%
+			}
+		} else {
+			out.print("Toy not found");
+		}
+	    %>
+        </div>
+    </div>
+    
+    <div class="header">
+        <h1>Veja também: Instrumentos Musicais</h1>
+    </div>
+    
+    <div class="releases_container">
+        <div class="row">
+        <%
+		if (list != null) {
+
+			for (Toy toy : list) {
+				for (Category category : toy.getToyCategories()) {
+					if (category.getCategoryName().equals("Instrumentos Musicais")) {
+		%>
+	            <div class="card">
+	                <a href="ToyController?action=getOneToy&toy_code=<%= toy.getToyCode() %>">
+	                	<img src="<%= toy.getToyImage() %>" alt="Image" title="Ver mais sobre <%= toy.getToyName() %>"></a>
+	                <h4><%= toy.getToyName() %></h4>
+	                <p>R$<%= toy.getToyPrice() %></p>
+	            </div>
+        <%
+					}
+				}
+			}
+		} 
 		%>
         </div>
     </div>

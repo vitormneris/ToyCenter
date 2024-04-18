@@ -165,4 +165,18 @@ public class UserDAO {
 		}
 		return false;
 	}
-}
+	
+	public boolean deleteBlock() throws SQLException {
+		String SQL = "SELECT COUNT(*) AS number FROM user_table";
+		ps = conn.prepareStatement(SQL);
+		rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			int number = rs.getInt("number");
+			if (number == 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+ }

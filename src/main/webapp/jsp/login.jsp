@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="br.edu.toycenter.model.Category"%>
+<%@ page import="br.edu.toycenter.model.User"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,7 +16,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
-    <title>Login</title>
+    <title>Login ADM</title>
 </head>
 <body>
     <header>
@@ -32,14 +37,13 @@
 
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">CatÃ¡logo</a>
-            <a href="ToyController?action=getAllToyAdm">AdministraÃ§Ã£o</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
+            <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
-
-
+       
     <div class="login_container">
     	<form id="login_form" action="UserController" method="POST">
 			<input type="hidden" name="action" value="loginUser">
@@ -52,7 +56,11 @@
             <input type="password" name="user_password" id="senha" placeholder="Type a password" required>
             	
             <input id="login_button" type="submit" value="Entrar">
+            
+            <% String message = (String) request.getAttribute("message1"); %>
+            <p> <% if (!(message == null)) out.print(message); %> </p>
         </form>
+
     </div>
 </body>
 </html>

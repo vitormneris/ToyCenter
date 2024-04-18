@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styleTest.css">
-    <title>Editar Categoria</title>
+    <title>Atualizar Categoria</title>
 </head>
 
 <body>
@@ -28,15 +28,15 @@
 
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
 	
 
-	<a class="botao" href="CategoryController?action=getAllCategoryAdm">Back</a>
+	<a class="botao" href="CategoryController?action=getAllCategoryAdm">Voltar</a>
 
 	
     <main id="Main_ContentCT" class="Container_EditCategory">
@@ -66,11 +66,22 @@
                 <img class="img_show" src="<%=category.getCategoryImage()%>"> <br> 
             </div>
 
-            <div class="fieldsetEC_btn">
-                <input type="submit" id="btn_EC"> 
-            </div>
+			<div class="fieldsetNT_btn">
+			    <button id="confirmBtn" onclick="confirmSubmission()">Salvar</button>
+			</div>
         </form>
     </main>
+    
+    <script>
+	    function confirmSubmission() {
+	        if (confirm("Tem certeza de que deseja salvar este brinquedo?")) {
+	            document.getElementById("Content_NewToy").submit();
+	        } else {
+	            return false;
+	        }
+	    }
+	    
+	</script>
 </body>
 
 </html>

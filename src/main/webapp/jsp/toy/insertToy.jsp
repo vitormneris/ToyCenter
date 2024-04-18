@@ -7,10 +7,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/styleTest.css">
-<title>Novo Brinquedo</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/styleTest.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+	<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+	<title>Inserir Brinquedo</title>
 <style>
 
 .categorysNT {
@@ -47,20 +49,25 @@
 
 	</header>
 
-	<nav class="menu">
-		<div class="menuList">
-			<a href="ToyController?action=getAllToy">Home</a> <a
-				href="CategoryController?action=getAllCategory">Catálogo</a> <a
-				href="ToyController?action=getAllToyAdm">Administração</a> <a
-				href="html/sobre_a_equipe.html">Sobre a Equipe</a>
-		</div>
-	</nav>
+    <nav class="menu">
+        <div class="menuList">
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
+            <a href="ToyController?action=getAllToyAdm">Administração</a>
+            <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
+        </div>
+    </nav>
 
 
-	<a class="botao" href="ToyController?action=getAllToyAdm">Back</a>
+	<a class="botao" href="ToyController?action=getAllToyAdm">Voltar</a>
 	
 	
 	<main id="Main_ContentNT" class="Container_NewToy">
+		<%
+		List<Category> list = (ArrayList) request.getAttribute("categoryList");
+		String message = (String) request.getParameter("message1");
+		if (list != null) {
+		%>
 		<form id="Content_NewToy" action="ToyController" method="POST"
 			enctype="multipart/form-data">
 			<input type="hidden" name="action" value="insertToy">
@@ -100,23 +107,17 @@
 
 			<div class="categoryNT_Box">
 				<div class="fieldsetNT_boxCTG">
-
-					<p class="category_NTP">Categorias:</p>
-
-					<%
-					List<Category> list = (ArrayList) request.getAttribute("categoryList");
-					String message = (String) request.getParameter("message1");
-					for (Category category : list) {
-					%>
-					<div class="checkbox-label">
-					<input type="checkbox" name="toy_categories" id="category_NT1"
-						value="<%=category.getCategoryCode()%>"> <label class="categorysET"><%=category.getCategoryName()%></label><br>
-					</div>
-					<%
-					}
-					%>
-
-				</div>
+			    <p class="category_NTP">Categorias:</p>
+			    <select name="toy_categories" id="categorias" multiple>
+			    <%
+			    	for (Category category : list) {
+			    %>
+			    	<option value="<%=category.getCategoryCode()%>"> <%=category.getCategoryName()%></option>
+			    <%
+			    }
+			    %>
+			    </select>
+                </div>
 			</div>
 
 			<div class="details_ET">
@@ -125,7 +126,7 @@
 			</div>
 
 			<div class="fieldsetNT_btn">
-				<input id="btn_NT" type="submit" value="Salvar">
+			    <button id="confirmBtn" onclick="confirmSubmission()">Salvar</button>
 			</div>
 			<br>
 			<br>
@@ -137,7 +138,23 @@
 			</p>
 
 		</form>
-
+		<%
+		} else {
+			out.print("Adicione uma categoria.");
+		}
+		%>
 	</main>
+	
+	<script>
+	    function confirmSubmission() {
+	        if (confirm("Tem certeza de que deseja salvar este brinquedo?")) {
+	            document.getElementById("Content_NewToy").submit();
+	        } else {
+	            return false;
+	        }
+	    }
+	    
+	</script>
+	<script> new MultiSelectTag('categorias') </script> 
 </body>
 </html>

@@ -29,7 +29,7 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession(false); 
 
 		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
-			forwardToPage(request, response, "html/login.html");
+			forwardToPage(request, response, "jsp/login.jsp");
 		
 		try {
     		UserDAO userdao = new UserDAO();
@@ -116,9 +116,11 @@ public class UserController extends HttpServlet {
 			request.setAttribute("message", redirectScript);
 
 			forwardToPage(request, response, "index.jsp");
-		} else {
-	    	request.setAttribute("message", "E-mail or password is wrong.");
-        	forwardToPage(request, response, "jsp/error.jsp");
+		} else {	    	
+
+			request.setAttribute("message1", "E-mail ou senha errado");
+
+			forwardToPage(request, response, "jsp/login.jsp");
 		}
     }
     
@@ -167,8 +169,12 @@ public class UserController extends HttpServlet {
 	    if (text != null) 
     		if (text.equals("true")) 
             	forwardToPage(request, response, "index.jsp");
-	    getAllUser(request, response);
-	}
+	    
+		String js = "<script>window.location.href='UserController?action=getAllUser'</script>";
+		
+		request.setAttribute("message", js);
+    	forwardToPage(request, response, "index.jsp");
+    }
 	
 	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
 		UserDAO userDAO = new UserDAO();
@@ -176,24 +182,38 @@ public class UserController extends HttpServlet {
 
 		String msg =  userDAO.updateUser(user) ? "User updated sucessfully" : "Unable to update user";
 	    request.setAttribute("message", msg);
-	    getAllUser(request, response);
+
+		String js = "<script>window.location.href='UserController?action=getAllUser'</script>";
+		
+		request.setAttribute("message", js);
+    	forwardToPage(request, response, "index.jsp");
 	} 
 	
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
 		UserDAO userDAO = new UserDAO();
 		User user = new User(Integer.parseInt(request.getParameter("user_code")));
 		
-		String msg =  userDAO.deleteUser(user) ? "User deleted sucessfully" : "Unable to delete user";
-	    request.setAttribute("message", msg);
-		getAllUser(request, response);
+		if (userDAO.deleteBlock()) {
+			String msg = "Não é possível deletar o último usuário";
+			request.setAttribute("message", msg);
+			getAllUser(request, response);
+		} else {
+			String msg =  userDAO.deleteUser(user) ? "User deleted sucessfully" : "Unable to delete user";
+		    request.setAttribute("message", msg);
+			getAllUser(request, response);
+		}
 	}
 	
 	private User createObjectUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		User user = new User();
 		try {
-			if (!request.getParameter("action").equals("insertUser")) {
+			if (!(request.getParameter("action").equals("insertUser"))) {
+				if (!inputCheck(request, response, "updateUser")) return null;
 				user.setUserCode(Integer.parseInt(request.getParameter("user_code")));
+			} else {
+				if (!inputCheck(request, response, "insertUser")) return null;
 			}
+			
 			user.setUserName(request.getParameter("user_name"));
 			user.setUserEmail(request.getParameter("user_email"));
 			user.setUserPassword(request.getParameter("user_password"));
@@ -208,5 +228,42 @@ public class UserController extends HttpServlet {
 	private void forwardToPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);
+	}
+	
+	private boolean inputCheck(HttpServletRequest request, HttpServletResponse response, String destiny) throws ServletException, IOException {
+		boolean error = false;
+		String msg = "";
+		
+		if (request.getParameter("user_name").trim().equals("") || request.getParameter("user_name") == null) {	    
+			msg = "O nome nao pode ficar em branco.";
+			error = true;
+		}
+		
+		if (request.getParameter("user_email").trim().equals("") || request.getParameter("user_email") == null) {	    	
+			msg = "O e-mail nao pode ficar em branco.";
+			error = true;
+		}
+		
+		
+		if (request.getParameter("user_password").trim().equals("") || request.getParameter("user_password") == null) {	    	
+			msg = "A senha nao pode ficar em branco.";
+			error = true;
+		}
+		
+		if (error == true) {
+			String js;
+			if (request.getParameter("action").equals("insertUser")) {
+				js = "<script>window.location.href='UserController?action=" + destiny + "&message1=" + msg + "';</script>";
+			} else {
+				js = "<script>window.location.href='UserController?action=" + destiny + "&user_code=" + request.getParameter("toy_code") + "&message1=" + msg + "';</script>";
+			}
+
+			request.setAttribute("message", js);
+	    	forwardToPage(request, response, "index.jsp");
+	    	
+	    	return false;
+		}
+		
+		return true;
 	}
 }

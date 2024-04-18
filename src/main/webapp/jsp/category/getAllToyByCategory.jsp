@@ -15,7 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
-    <title>Toy Center Home</title>
+    <title>Toy Center categoria</title>
 </head>
 
 <body>
@@ -37,20 +37,13 @@
 
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
-    
-    <main class="banner_container">
-        <div class="banner_main">
-            <div class="banner_content">
-                <img src="image/mp-brinquedos-hotwheels.png" alt="">
-            </div>
-        </div>
-    </main>
+ 
 	
 	<% Category category = (Category) request.getAttribute("category"); %>
     <div class="header">

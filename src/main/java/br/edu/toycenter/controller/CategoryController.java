@@ -15,9 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import br.edu.toycenter.dao.CategoryDAO;
-import br.edu.toycenter.dao.ToyDAO;
 import br.edu.toycenter.model.Category;
-import br.edu.toycenter.model.Toy;
 
 @WebServlet("/CategoryController")
 @MultipartConfig
@@ -103,15 +101,10 @@ public class CategoryController extends HttpServlet {
 		CategoryDAO td = new CategoryDAO();
 		List<Category> list = td.getAllCategoryWithToy(true);
 		
-		if (list != null) {
-			request.setAttribute("categoryList", list);
+		request.setAttribute("categoryList", list);
 
-			String msg = (adm) ? "jsp/category/getAllCategoryAdm.jsp" : "jsp/category/getAllCategory.jsp";
-	    	forwardToPage(request, response, msg);
-		} else {
-	    	request.setAttribute("message", "Categorys not found");
-        	forwardToPage(request, response, "jsp/error.jsp");
-		}
+		String msg = (adm) ? "jsp/category/getAllCategoryAdm.jsp" : "jsp/category/getAllCategory.jsp";
+	    forwardToPage(request, response, msg);
 	}
 	
 	private void getOneCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -139,8 +132,11 @@ public class CategoryController extends HttpServlet {
 	    	request.setAttribute("message", "Unable to create category");
 		}
     	
-		getAllCategory(request, response, true);
-	}
+		String js = "<script>window.location.href='CategoryController?action=getAllCategoryAdm'</script>";
+		
+		request.setAttribute("message", js);
+    	forwardToPage(request, response, "index.jsp");
+    }
 	
 	private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
 		CategoryDAO td = new CategoryDAO();
@@ -152,8 +148,11 @@ public class CategoryController extends HttpServlet {
 	    	request.setAttribute("message", "Unable to update category");
 		}
 		
-		getAllCategory(request, response, true);
-	} 
+		String js = "<script>window.location.href='CategoryController?action=getAllCategoryAdm'</script>";
+		
+		request.setAttribute("message", js);
+    	forwardToPage(request, response, "index.jsp");
+    } 
 	
 	private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
 		CategoryDAO cd = new CategoryDAO();
@@ -171,9 +170,14 @@ public class CategoryController extends HttpServlet {
 	private Category createObjectCategory(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		Category category = new Category();
 		try {
-			if (!request.getParameter("action").equals("insertCategory")) {
+			
+			if (!(request.getParameter("action").equals("insertCategory"))) {
+				if (!inputCheck(request, response, "updateCategory")) return null;
 				category.setCategoryCode(Integer.parseInt(request.getParameter("category_code")));
+			} else {
+				if (!inputCheck(request, response, "insertCategory")) return null;
 			}
+			
 			category.setCategoryName(request.getParameter("category_name"));	
 			category.setCategoryImage(uploadImage(request, response));
 
@@ -206,6 +210,46 @@ public class CategoryController extends HttpServlet {
         HttpSession session = request.getSession(false); 
 
 		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
-			forwardToPage(request, response, "html/login.html");
+			forwardToPage(request, response, "jsp/login.jsp");
+	}
+	
+	private boolean inputCheck(HttpServletRequest request, HttpServletResponse response, String destiny) throws ServletException, IOException {
+		boolean error = false;
+		String msg = "";
+		
+		if (request.getParameter("category_name").trim().equals("") || request.getParameter("category_name") == null) {	    
+			msg = "O nome nao pode ficar em branco.";
+			error = true;
+		}
+		
+		if (request.getParameter("action").equals("insertCategory")) {
+			boolean img = false;
+			for(Part part : request.getParts()) {
+				if (part.getName().equals("category_image") && part.getSize() > 0) {
+					img = true;
+				}
+			}
+			if (!img) {
+				msg = "Envie uma imagem";
+				error = true;			
+			}
+		}
+		
+		if (error == true) {
+			String js;
+			if (request.getParameter("action").equals("insertCategory")) {
+				js = "<script>window.location.href='CategoryController?action=" + destiny + "&message1=" + msg + "';</script>";
+			} else {
+				js = "<script>window.location.href='CategoryController?action=" + destiny + "&category_code=" + request.getParameter("category_code") 
+				+ "&message1=" + msg + "';</script>";
+			}
+
+			request.setAttribute("message", js);
+	    	forwardToPage(request, response, "index.jsp");
+	    	
+	    	return false;
+		}
+		
+		return true;
 	}
 }

@@ -14,7 +14,18 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
-    <title>Toy Center Home</title>
+    <title>Toy Center categoria</title>
+    <style>
+        .row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px; 
+        }
+
+        .card {
+            width: 100%; 
+        }
+    </style>
 </head>
 
 <body>
@@ -36,8 +47,8 @@
 
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
@@ -49,17 +60,21 @@
 		<%
 		List<Category> categoryList = (ArrayList) request.getAttribute("categoryList");
 		String message = (String) request.getAttribute("message");
-		for (Category category : categoryList) {
-		%>
-			<div class="card">
-				<a href="CategoryController?action=getOneCategory&category_code=<%= category.getCategoryCode() %>">
-                <img src="<%= category.getCategoryImage() %>" alt=""></a>
-                <h4><%= category.getCategoryName() %></h4>
-            </div>
+		if (categoryList != null) {
+			for (Category category : categoryList) {
+			%>
+				<div class="card">
+					<a href="CategoryController?action=getOneCategory&category_code=<%= category.getCategoryCode() %>">
+	                <img src="<%= category.getCategoryImage() %>" alt=""></a>
+	                <h4><%= category.getCategoryName() %></h4>
+	            </div>
 		<%
+			}
+		} else {
+			out.println("Category not found");	
 		}
 		%>
-		
+
         </div>
     </div>
 	<p> <% if (!(message == null)) out.print(message); %> </p>

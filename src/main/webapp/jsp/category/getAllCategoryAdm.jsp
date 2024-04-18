@@ -7,7 +7,7 @@
 <head>
 	  <meta charset="UTF-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <title>TOY Center</title>
+	  <title>Toy Center ADM</title>
 	  <link rel="stylesheet" href="css/styleAdm.css">
 	  <link rel="stylesheet" href="css/styleindex.css">
 </head>
@@ -25,20 +25,20 @@
 	  </header>
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
     
-    <a class="botao1" href="ToyController?action=getAllToyAdm">Back</a>
+    <a class="botao1" href="ToyController?action=getAllToyAdm">Voltar</a>
     
 
 	<div class="containerAdm">
 	  <div class="camada0">
 	    <div class="camada1">
-	        <h2 class="subtitulo">Administração : Categorias</h2>
+	        <h2 class="subtitulo">Administração: Categorias</h2>
 	            <div class="tabela">
 	            <table>
 	                <thead>
@@ -46,29 +46,39 @@
 	                        <th>Código da categoria</th>
 	                        <th>Imagem da categoria</th>
 	                        <th>Nome da categoria</th>
-	                        <th>Operações Categoria</th>
+	                        <th>Operações da categoria</th>
 	                    </tr>
 	                </thead>
 	                <tbody>                   
 	                    <%
 						List<Category> categoryList = (ArrayList) request.getAttribute("categoryList");
 						String message = (String) request.getAttribute("message");
-						for (Category category : categoryList) {
-						%>
-							<% if (category.getCategoryCode() % 2 == 0) { %>
+						int c = 0;
+						if (categoryList != null) {
+							for (Category category : categoryList) {
+								c++;
+								if (c % 2 == 0) { 
+					    %>
 								<tr class="trb">
-							<%	} else { %>
+					    <%	
+					  			} else {
+					    %>
 								<tr class="trw">
-							<% } %>
+					    <% 
+					  			} 
+					    %>
 								<td><%= category.getCategoryCode() %></td>
 								<td class="toy-compact-cell" ><%= category.getCategoryName() %></td>
 								<td><img src="<%= category.getCategoryImage() %>" width="100px" height="100px"></td>
 								<td class="controls">
-									<a class="linkDelete" onclick="deleteCategory(<%= category.getCategoryCode() %>)">Delete</a>
-								    <a class="linkEdit" href="CategoryController?action=updateCategory&category_code=<%= category.getCategoryCode() %>">Update</a>
+									<a class="linkDelete" onclick="deleteCategory(<%= category.getCategoryCode() %>)">Deletar</a>
+								    <a class="linkEdit" href="CategoryController?action=updateCategory&category_code=<%= category.getCategoryCode() %>">Atualizar</a>
 								</td>
 							</tr>
 						<%
+							}
+						} else {
+							out.println("Category not found");
 						}
 						%>
 	                </tbody>

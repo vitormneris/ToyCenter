@@ -130,3 +130,30 @@ a.botao {
 a.botao:hover {
     background-color: #072240;
 }
+
+.fieldsetNT_btn,.fieldsetNC_btn {
+    margin-top: 1%;
+    display: flex;
+    align-items: baseline;
+    width: 50vw;
+    height: 5vh;
+    justify-content: center;
+}
+
+.fieldsetNT_btn button,.fieldsetNC_btn button {
+    text-decoration: none;
+    width: 30%;
+    height: 5vh;
+    border-radius: 5px;
+    background-color: #1e3a8a;
+    color: white;
+    transition: background-color 0.4s;
+    transition: transform 0.4s;
+    border: none;
+    border-radius: 30px;
+}
+
+.fieldsetNT_btn button:hover,.fieldsetNC_btn button:hover{
+    background-color: #3a5cbb;
+    transform: scale(1.1);
+}

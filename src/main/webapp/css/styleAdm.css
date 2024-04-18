@@ -1,3 +1,5 @@
+/* Adicione este CSS ao seu arquivo styleAdm.css */
+
 .containerAdm {
     display: flex;
     justify-content: center;
@@ -5,7 +7,7 @@
     padding: 20px;
 }
 
-.camada0 {
+.camada0, .camada1 {
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
     width: 90%;
@@ -15,10 +17,6 @@
 .camada1 {
     background-color: #e9ebfe;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 1200px;
 }
 
 .subtitulo {
@@ -32,6 +30,8 @@
 .tabela {
     margin-top: 20px;
     overflow-x: auto;
+    overflow-y: auto; /* Adiciona barra de rolagem vertical */
+    max-height: 500px; /* Define a altura máxima da tabela antes de mostrar a barra de rolagem */
 }
 
 table {
@@ -57,7 +57,6 @@ th, td {
     z-index: 1;
     background-color: #fff;
 }
-
 
 .controls {
     display: flex;
@@ -104,8 +103,8 @@ a.botao:hover {
 }
 
 a.botao1 {
-	width: 100px;
-	margin-left: 20px;
+    width: 100px;
+    margin-left: 20px;
     display: block;
     text-align: center;
     padding: 12px 24px;
@@ -119,4 +118,35 @@ a.botao1 {
 
 a.botao1:hover {
     background-color: #072240;
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.paginacao a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #1e3a8a;
+    background-color: #e9ebfe;
+    transition: background-color 0.3s ease;
+}
+
+.paginacao a:hover {
+    background-color: #072240;
+    color: white;
+}
+
+.trw {
+	background-color: rgba(1, 1, 1, 0.1);
+}
+
+.trb {
+	background-color: rgba(1, 1, 1, 0.3);
 }

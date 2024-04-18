@@ -112,16 +112,11 @@ public class ToyController extends HttpServlet {
 		ToyDAO td = new ToyDAO();
 		List<Toy> list = td.getAllToy();
 		
-		if (list != null) {
-			request.setAttribute("toyList", list);
+		request.setAttribute("toyList", list);
 
-	    	String msg = (adm) ? "jsp/toy/getAllToyAdm.jsp" :"jsp/toy/getAllToy.jsp";
-			
-			forwardToPage(request, response, msg);
-		} else {
-	    	request.setAttribute("message", "Toys not found");
-        	forwardToPage(request, response, "jsp/error.jsp");
-		}
+    	String msg = (adm) ? "jsp/toy/getAllToyAdm.jsp" :"jsp/toy/getAllToy.jsp";
+		
+		forwardToPage(request, response, msg);
 	}
 	
 	private void getOneToy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -144,7 +139,11 @@ public class ToyController extends HttpServlet {
 		
 		String msg =  td.insertToy(toy) ? "Toy inserted sucessfully" : "Unable to create toy";
 	    request.setAttribute("message", msg);
-		getAllToy(request, response, true);
+	    
+		String js = "<script>window.location.href='ToyController?action=getAllToyAdm'</script>";
+		
+		request.setAttribute("message", js);
+    	forwardToPage(request, response, "index.jsp");
 	}
 	
 	private void updateToy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -153,7 +152,11 @@ public class ToyController extends HttpServlet {
 
 		String msg =  td.updateToy(toy) ? "Toy updated sucessfully" : "Unable to update toy";
 	    request.setAttribute("message", msg);
-		getAllToy(request, response, true);
+
+		String js = "<script>window.location.href='ToyController?action=getAllToyAdm'</script>";
+		
+		request.setAttribute("message", js);
+    	forwardToPage(request, response, "index.jsp");
 	} 
 	
 	private void deleteToy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
@@ -171,10 +174,10 @@ public class ToyController extends HttpServlet {
 		
 		try {
 			if (!(request.getParameter("action").equals("insertToy"))) {
-				inputCheck(request, response, "updateToy");
+				if (!inputCheck(request, response, "updateToy")) return null;
 				toy.setToyCode(Integer.parseInt(request.getParameter("toy_code")));
 			} else {
-				inputCheck(request, response, "insertToy");
+				if (!inputCheck(request, response, "insertToy")) return null;
 			}
 			toy = setToyCategories(request, response, toy);
 			toy.setToyImage(uploadImage(request, response));			
@@ -233,12 +236,45 @@ public class ToyController extends HttpServlet {
         HttpSession session = request.getSession(false); 
 
 		if (!(session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn")))
-			forwardToPage(request, response, "html/login.html");
+			forwardToPage(request, response, "jsp/login.jsp");
 	}
 	
-	private void inputCheck(HttpServletRequest request, HttpServletResponse response, String destiny) throws ServletException, IOException {
+	private boolean inputCheck(HttpServletRequest request, HttpServletResponse response, String destiny) throws ServletException, IOException {
 		boolean error = false;
 		String msg = "";
+		
+		if (request.getParameter("toy_name").trim().equals("") || request.getParameter("toy_name") == null) {	    
+			msg = "O nome nao pode ficar em branco.";
+			error = true;
+		}
+		
+		if (request.getParameter("toy_brand").trim().equals("") || request.getParameter("toy_brand") == null) {	    	
+			msg = "A marca nao pode ficar em branco.";
+			error = true;
+		}
+		
+		if (request.getParameter("action").equals("insertToy")) {
+			boolean img = false;
+			for(Part part : request.getParts()) {
+				if (part.getName().equals("toy_image") && part.getSize() > 0) {
+					img = true;
+				}
+			}
+			if (!img) {
+				msg = "Envie uma imagem";
+				error = true;			
+			}
+		}
+		
+		if (request.getParameter("toy_price").trim().equals("") || request.getParameter("toy_price") == null) {	    	
+			msg = "Digite um valor para o brinquedo.";
+			error = true;
+		}
+		
+		if (request.getParameter("toy_description").trim().equals("") || request.getParameter("toy_description") == null) {	    	
+			msg = "A descricao nao pode ficar em branco.";
+			error = true;
+		}
 		
 		if (request.getParameter("toy_categories") == null) {	    	
 			msg = "Selecione ao menos uma categoria.";
@@ -246,15 +282,24 @@ public class ToyController extends HttpServlet {
 		}
 		
 		if (request.getParameter("toy_details").trim().equals("") || request.getParameter("toy_details") == null) {
-			msg = "Detalhes não pode ficar em branco.";
+			msg = "Detalhes nao pode ficar em branco.";
 			error = true;
         }
 		
 		if (error == true) {
-			String js = "<script>window.location.href='ToyController?action=" + destiny + "&message1=" + msg + "';</script>";
-			
+			String js;
+			if (request.getParameter("action").equals("insertToy")) {
+				js = "<script>window.location.href='ToyController?action=" + destiny + "&message1=" + msg + "';</script>";
+			} else {
+				js = "<script>window.location.href='ToyController?action=" + destiny + "&toy_code=" + request.getParameter("toy_code") + "&message1=" + msg + "';</script>";
+			}
+
 			request.setAttribute("message", js);
 	    	forwardToPage(request, response, "index.jsp");
+	    	
+	    	return false;
 		}
+		
+		return true;
 	}
 }

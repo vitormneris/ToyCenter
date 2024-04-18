@@ -1,13 +1,5 @@
 package br.edu.toycenter.test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import br.edu.toycenter.dao.ToyDAO;
-import br.edu.toycenter.model.Toy;
-import br.edu.toycenter.util.ConnectionFactory;
-
 public class MainTest {
 	public static void main(String[] args) {
 //		Connection conn = null;
@@ -84,6 +76,5 @@ public class MainTest {
 //		} catch (Exception e) {
 //			System.out.print(e);
 //		}
-		
 	}
 }

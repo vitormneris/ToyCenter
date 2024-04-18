@@ -9,7 +9,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styleTest.css">
-    <title>Editar Brinquedo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+	<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+    <title>Atualizar Brinquedo</title>
 </head>
 <body>
     <header>
@@ -28,17 +30,17 @@
 
     </header>
 
-    <nav class="menu">
+     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
     
 
-	<a class="botao" href="ToyController?action=getAllToyAdm">Back</a>
+	<a class="botao" href="ToyController?action=getAllToyAdm">Voltar</a>
 
 
     <main id="Main_ContentET" class="Container_EditToy">
@@ -83,56 +85,68 @@
             	 id="price_ET" value="<%=toy.getToyPrice()%>">
             </div>
 
+
             <div class="categoryET_Box">
                 <div class="fieldsetET_boxCTG">
+                    <p class="category_ETP">Categorias:</p>
+                    <select name="toy_categories" id="categorias" multiple>
+                    <%
+                    List<Category> list = (ArrayList) request.getAttribute("categoryList");
+                    String message = (String) request.getAttribute("message");
+                    String message1 = (String) request.getAttribute("message1");
 
-                    <p class="category_ETP">Catégorias:</p>
-    
-    				<%
-					List<Category> list = (ArrayList) request.getAttribute("categoryList");
-					String message = (String) request.getAttribute("message");
-					for (Category category : list) {
-					    boolean status = false;
-					    for (Category toyCategory : toy.getToyCategories()) {
-					        if (category.getCategoryCode() == toyCategory.getCategoryCode()) {
-					%>
-					            <div class="checkbox-label">
-					                <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>" checked>
-					                <label for="category_NT1" class="categorysET"><%= category.getCategoryName() %></label><br>
-					            </div>
-					<%
-					            status = true;
-					            break;
-					        }
-					    }
-					    if (!status) {
-					%>
-					            <div class="checkbox-label">
-					                <input type="checkbox" name="toy_categories" id="category_NT1" value="<%= category.getCategoryCode() %>">
-					                <label for="category_NT1" class="categorysET"><%= category.getCategoryName() %></label><br>
-					            </div>
-					<%
-					    }
-					}
-					%> 
-    				
-                </div>                
+                    for (Category category : list) {
+                        boolean status = false;
+                        for (Category toyCategory : toy.getToyCategories()) {
+                            if (category.getCategoryCode() == toyCategory.getCategoryCode()) {
+                    %>
+                               <option value="<%= category.getCategoryCode() %>" selected><%= category.getCategoryName() %></option>
+                    <%
+                                status = true;
+                                break;
+                            }
+                        }
+                        if (!status) {
+                    %>
+                               <option value="<%= category.getCategoryCode() %>"><%= category.getCategoryName() %></option>
+                    <%
+                        }
+                    }
+                    %> 
+
+                </div>
             </div>
-			<br><br><br>
-			 <label for="details_ET">Detalhes</label>
+            
+			<label for="details_ET">Detalhes</label>
             <textarea class="details_BoxET" maxlength="1080" placeholder="Escreva os Novos Detalhes do Brinquedo" name="toy_details" 
             id="details_NT"><%=toy.getToyDetails()%></textarea>
 
 
-            <div class="fieldsetET_btn">
-            	<input id="btn_ET" type="submit" value="Salvar">
-            </div>
-             
-             <p> <% if (!(message == null)) out.print(message); %> </p>
+			<div class="fieldsetNT_btn">
+			    <button id="confirmBtn" onclick="confirmSubmission()">Salvar</button>
+			</div>
+             <p>
+				<%
+				if (!(message == null))
+					out.print(message);
+				 else if (!(message1 == null))
+					out.print(message1);
+				%>
+			</p>
             
-        </form>
-        
+        </form>        
     </main>
+    	<script>
+	    function confirmSubmission() {
+	        if (confirm("Tem certeza de que deseja atualizar este brinquedo?")) {
+	            document.getElementById("Content_EditToy").submit();
+	        } else {
+	            return false;
+	        }
+	    }
+	    
+	</script>
+	<script> new MultiSelectTag('categorias') </script> 
 </body>
 </html>
 

@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TOY Center</title>
+<title>Toy Center ADM</title>
 <link rel="stylesheet" href="css/styleAdm.css">
 <link rel="stylesheet" href="css/styleindex.css">
 
@@ -31,14 +31,14 @@
 
 	</header>
 
-	<nav class="menu">
-		<div class="menuList">
-			<a href="ToyController?action=getAllToy">Home</a> <a
-				href="CategoryController?action=getAllCategory">Catálogo</a> <a
-				href="ToyController?action=getAllToyAdm">Administração</a> <a
-				href="html/sobre_a_equipe.html">Sobre a Equipe</a>
-		</div>
-	</nav>
+    <nav class="menu">
+        <div class="menuList">
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
+            <a href="ToyController?action=getAllToyAdm">Administração</a>
+            <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
+        </div>
+    </nav>
 
 	<div class="containerAdm">
 		<div class="camada0">
@@ -48,35 +48,35 @@
 					<table>
 						<thead>
 							<tr>
-								<th>Toy Code</th>
-								<th>Toy Image</th>
-								<th>Toy Name</th>
-								<th>Toy Category</th>
-								<th>Toy Brand</th>
-								<th>Toy Price</th>
-								<th>Toy Description</th>
-								<th>Toy Details</th>
-								<th>Toy Operations</th>
+								<th>Código do brinquedo</th>
+								<th>Imagem do brinquedo</th>
+								<th>Nome do brinquedo</th>
+								<th>Categorias do brinquedo</th>
+								<th>Marca do brinquedo</th>
+								<th>Preço do brinquedo</th>
+								<th>Descrição do brinquedo</th>
+								<th>Detalhes do brinquedo</th>
+								<th>Operações do brinquedo</th>
 							</tr>
 						</thead>
 						<tbody>
 							<%
 							List<Toy> list = (ArrayList) request.getAttribute("toyList");
 							String message = (String) request.getAttribute("message");
-							for (Toy toy : list) {
+							int c = 0;
+							if (list != null) {
+								for (Toy toy : list) {
+									c++;
+									if (c % 2 == 0) {
 							%>
+								<tr class="trb">
 							<%
-							if (toy.getToyCode() % 2 == 0) {
+									} else {
 							%>
-							<tr class="trb">
-								<%
-								} else {
-								%>
-							
 							<tr class="trw">
-								<%
-								}
-								%>
+							<%
+									}
+							%>
 								<td><%=toy.getToyCode()%></td>
 								<td><a
 									href="ToyController?action=getOneToy&toy_code=<%=toy.getToyCode()%>">
@@ -95,12 +95,15 @@
 								<td><%=toy.getToyPrice()%></td>
 								<td class="toy-compact-cell"><%=toy.getToyDescription()%></td>
 								<td class="toy-compact-cell"><%=toy.getToyDetails()%></td>
-								<td class="controls"><a class="linkDelete" onclick="deleteToy(<%= toy.getToyCode()%>)">Delete</a> 
-								<a class="linkEdit" href="ToyController?action=updateToy&toy_code=<%=toy.getToyCode()%>">Update</a>
+								<td class="controls"><a class="linkDelete" onclick="deleteToy(<%= toy.getToyCode()%>)">Deletar</a> 
+								<a class="linkEdit" href="ToyController?action=updateToy&toy_code=<%=toy.getToyCode()%>">Atualizar</a>
 								</td>
 							</tr>
 
 							<%
+								}
+							} else {
+								out.println("Toy not found");
 							}
 							%>
 						</tbody>
@@ -111,7 +114,7 @@
 				<a class="botao"href="ToyController?action=insertToy">Adicionar</a> 
 				<a class="botao" href="UserController?action=getAllUser">Administrar usuário</a>
 				<a class="botao" href="CategoryController?action=getAllCategoryAdm">Administrar categoria</a> 
-				<a class="botao" href="UserController?action=logOut">Deslogar</a>
+				<a class="botao" onclick="logOff()">Deslogar</a>
 			</div>
 
 		</div>
@@ -139,6 +142,25 @@
 	        });
 	    } else {
 	        console.log("Deletion canceled by toy.");
+	        
+	    }
+	}
+	
+	function logOff() {
+	    if (window.confirm("Do you really want to quit?")) {
+	        console.log("User quit successfully!");
+	        fetch('http://localhost:8080/ToyCenter/UserController?action=logOut', {
+	            method: 'GET', 
+	        })
+	        .then(response => {
+	            console.log('Server response:', response);
+	            window.location.href = "http://localhost:8080/ToyCenter/ToyController?action=getAllToyAdm";
+	        })
+	        .catch(error => {
+	            console.error('Request error:', error);
+	        });
+	    } else {
+	        console.log("User not quit.");
 	        
 	    }
 	}

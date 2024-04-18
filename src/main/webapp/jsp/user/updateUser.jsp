@@ -37,14 +37,14 @@
 
     <nav class="menu">
         <div class="menuList">
-            <a href="ToyController?action=getAllToy">Home</a>
-            <a href="CategoryController?action=getAllCategory">Catálogo</a>
+            <a href="ToyController?action=getAllToy">Início</a>
+            <a href="CategoryController?action=getAllCategory">Categorias</a>
             <a href="ToyController?action=getAllToyAdm">Administração</a>
             <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
         </div>
     </nav>
     
-    <a class="botao" href="UserController?action=getAllUser">Back</a>
+    <a class="botao" href="UserController?action=getAllUser">Voltar</a>
 
     <div class="cadastro_container">
     	<jsp:useBean id="user" scope="session" class="br.edu.toycenter.model.User" />
@@ -66,12 +66,22 @@
             <label for="senha">Senha:</label>
             <input type="password" name="user_password" id="senha" value="<%=user.getUserPassword()%>" placeholder="Type a password" required>
 
-            <div class="fieldsetNT_btn">
-            	<input id="cadastro_button" type="submit" value="Salvar">
-            </div>
+			<div class="fieldsetNT_btn">
+			    <button id="confirmBtn" onclick="confirmSubmission()">Salvar</button>
+			</div>
             <br><br>
             <p> <% if (!(message == null)) out.print(message); %> </p>
         </form>
     </div>
+    <script>
+	    function confirmSubmission() {
+	        if (confirm("Tem certeza de que deseja salvar este brinquedo?")) {
+	            document.getElementById("Content_NewToy").submit();
+	        } else {
+	            return false;
+	        }
+	    }
+	    
+	</script>
 </body>
 </html>
