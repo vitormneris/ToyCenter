@@ -7,23 +7,26 @@
     padding: 20px;
 }
 
-.camada0, .camada1 {
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+.camada0{
+	display:flex;
+	justify-content:center;
     width: 90%;
-    max-width: 1200px;
+    padding:50px 50px;
 }
 
 .camada1 {
-    background-color: #e9ebfe;
+    background-color: var(--Branco);
     padding: 20px;
+    max-width: 1400px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
 }
 
 .subtitulo {
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 20px;
-    border-bottom: 2px solid #1e3a8a;
+    border-bottom: 2px solid var(--Azul);
     padding-bottom: 10px;
 }
 
@@ -73,8 +76,12 @@ th, td {
 }
 
 .linkEdit {
-    background-color: #1e3a8a;
+    background-color: var(--Azul);
     color: white;
+}
+
+.linkEdit:hover{
+    background-color: var(--fundoAzul);
 }
 
 .linkDelete {
@@ -82,8 +89,8 @@ th, td {
     color: white;
 }
 
-.linkEdit:hover, .linkDelete:hover {
-    background-color: #072240;
+.linkDelete:hover {
+	background-color:rgb(128, 0, 0);
 }
 
 a.botao {

@@ -11,34 +11,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Toy Center ADM</title>
 <link rel="stylesheet" href="css/styleAdm.css">
-<link rel="stylesheet" href="css/styleindex.css">
+<link rel="stylesheet" href="css/remodel.css">
+<link rel="stylesheet" href="css/styleForm.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
 </head>
 <body>
-	<header>
-		<nav class="nav-bar">
+    <header>
+		<nav class="nav-logo">
 			<div class="logo">
 				<a href="ToyController?action=getAllToy"> <img
-					src="image/newLogo.svg" alt=""></a>
+					src="image/logoToyCenterAlt.svg" alt=""></a>
 			</div>
 
-			<div class="store_name">
+			<div class="store-name">
 				<h1>TOY CENTER</h1>
 			</div>
 
 			<div class="space"></div>
 		</nav>
 
-	</header>
+		<nav class="menu">
+			<div class="menuList">
+				<a href="ToyController?action=getAllToy">Início</a> 
+				<a href="CategoryController?action=getAllCategory">Categorias</a> 				
+				
+				<div class="dropdown">
+ 				<button class="dropbtn">Administração</button>
+  				<div class="dropdown-content">
+				<a href="ToyController?action=getAllToyAdm">Brinquedos</a>
+				<a href="CategoryController?action=getAllCategoryAdm">Categorias</a>
+				<a href="UserController?action=getAllUser">Usuarios</a>
+  				</div>
+				</div>
+			
+				<a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
+			</div>
+		</nav>
 
-    <nav class="menu">
-        <div class="menuList">
-            <a href="ToyController?action=getAllToy">Início</a>
-            <a href="CategoryController?action=getAllCategory">Categorias</a>
-            <a href="ToyController?action=getAllToyAdm">Administração</a>
-            <a href="html/sobre_a_equipe.html">Sobre a Equipe</a>
-        </div>
-    </nav>
+	</header>
 
 	<div class="containerAdm">
 		<div class="camada0">
@@ -111,10 +124,11 @@
 
 				</div>
 				<br> <br> 
-				<a class="botao"href="ToyController?action=insertToy">Adicionar</a> 
-				<a class="botao" href="UserController?action=getAllUser">Administrar usuário</a>
-				<a class="botao" href="CategoryController?action=getAllCategoryAdm">Administrar categoria</a> 
-				<a class="botao" onclick="logOff()">Deslogar</a>
+				<div class="centralize">
+				<a id="confirmBtn" href="ToyController?action=insertToy">Adicionar</a>
+				<br><br>
+				<a id="confirmBtn" onclick="logOff()">Deslogar</a>
+				</div>
 			</div>
 
 		</div>
@@ -128,7 +142,7 @@
 	</p>
 	<script>
 	function deleteToy(number) {
-	    if (window.confirm("Do you really want to delete the toy?")) {
+	    if (window.confirm("Você tem certeza de que deseja Excluir o brinquedo?")) {
 	        console.log("Toy deleted successfully!");
 	        fetch('http://localhost:8080/ToyCenter/ToyController?action=deleteToy&toy_code=' + number, {
 	            method: 'POST', 
@@ -147,7 +161,7 @@
 	}
 	
 	function logOff() {
-	    if (window.confirm("Do you really want to quit?")) {
+	    if (window.confirm("Você tem certeza de que deseja sair?")) {
 	        console.log("User quit successfully!");
 	        fetch('http://localhost:8080/ToyCenter/UserController?action=logOut', {
 	            method: 'GET', 

@@ -1,0 +1,187 @@
+*, input {
+	font-family: "Poppins", sans-serif;
+	
+}
+
+.Container_NewToy {
+	display: flex;
+	justify-content: center;
+	margin-top: 3%;
+}
+a{
+	text-decoration:none;
+}
+
+#Content_NewToy,#Content_NewCategory,#Content_EditToy,#Content_EditCategory {
+	display: flex;
+	flex-direction: column;
+	padding: 20px 20px;
+	background-color: var(--Branco);
+	border-radius: 35px;
+}
+
+.fieldsetBox {
+	display: flex;
+	flex-flow: column wrap;
+	padding: 12px 20px;
+	resize: none;
+}
+
+.fieldsetPriceBox {
+	display: flex;
+	padding: 12px 20px;
+}
+
+.fieldsetBox label, .fieldsetPriceBox label, .fieldsetImageBox label, fieldsetBox p {
+	font-size: 24px;
+}
+.categoryLabel{
+		font-size: 24px;
+}
+
+.fieldsetBox input {
+	width: 100%;
+	height: 40px;
+	border: 0;
+	padding: 20px;
+	margin-bottom: 30px;
+	box-sizing: border-box;
+	font-size: 14px;
+	border-radius: 35px;
+	border: 1px solid black;
+	float: left;
+	border: none;
+	outline: none;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	transition: 0.2s;
+}
+
+.fieldsetBox input:focus,input[type="number"]:focus,.detailsBox:focus {
+	border: 3px solid var(--Azul);
+}
+
+input[type="text"] {
+	font-size: 20px;
+}
+
+input[type="number"] {
+	height: 40px;
+	border: 0;
+	padding: 20px;
+	margin-bottom: 30px;
+	margin-left: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+	border-radius: 35px;
+	border: 1px solid black;
+	float: left;
+	border: none;
+	outline: none;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	transition: 0.2s;
+	font-size: 20px;
+}
+
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+}
+
+
+
+.detailsBox {
+	resize: none;
+	border: 0;
+	padding: 20px;
+	margin-bottom: 30px;
+	margin-left: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+	border-radius: 35px;
+	border: 1px solid black;
+	float: left;
+	border: none;
+	outline: none;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	transition: 0.2s;
+	font-size: 20px;
+}
+.detailsBoxAlt {
+	display: none;
+	resize: none;
+	padding: 20px;
+	margin-bottom: 30px;
+	margin-left: 15px;
+	margin-top:30px;
+	box-sizing: border-box;
+	font-size: 14px;
+	border-radius: 35px;
+	border: 1px solid black;
+	float: left;
+	border: none;
+	outline: none;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	transition: 0.2s;
+	font-size: 20px;
+	width:100%;
+}
+.fieldsetBox {
+	display: flex;
+	flex-flow: column wrap;
+	padding: 12px 20px;
+	resize: none;
+}
+.fieldsetImageBox {
+	display: flex;
+	flex-flow: column wrap;
+	padding: 12px 20px;
+	resize: none;
+}
+.customFile {
+	display: flex;
+	padding: 6px 12px;
+	cursor: pointer;
+	resize: none;
+	padding: 20px;
+	margin-bottom: 30px;
+	margin-left: 15px;
+	box-sizing: border-box;
+	border-radius: 35px;
+	border: 1px solid black;
+	outline: none;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	transition: 0.2s;
+	font-size: 20px;
+}
+input[type="file"]::file-selector-button {
+	padding: 12px 20px;
+	border-radius: 35px;
+	border:none;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+	outline:none;
+	transition: border 0.3s ease;
+}
+input[type="file"]::file-selector-button:hover{
+	border:3px solid var(--Azul);
+}
+#confirmBtn{
+	    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    width: 275px;
+    border: 0;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 30px;
+    background-color: var(--Azul);
+    color: white;
+    transition:0.4s;
+    box-shadow:none;
+}
+#confirmBtn:hover{
+	transform:scale(1.1);
+	background-color: var(--fundoAzul);
+}
+#confirmBtn:active{
+	transform:scale(1.0);
+}

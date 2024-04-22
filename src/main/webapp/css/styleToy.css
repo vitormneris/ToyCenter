@@ -1,22 +1,24 @@
 .containerToy {
-    margin-top: 50px;
+    margin: 50px 50px;
     display: flex;
     justify-content: center;
+    align-items:center;
 }
 
 .toyContent {
     display: flex;
-    background-color: #e9ebfe;
+    background-color: var(--Branco);
     width: 80%;
     max-width: 800px;
-    border-radius: 15px;
+    border-radius: 35px;
     padding: 20px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    justify-content:center;
 }
 
 .toyInfo {
     display: flex;
     flex-direction: column;
+    padding:20px 50px;
 }
 
 .toyInfo img {
@@ -24,38 +26,69 @@
     max-width: 100%;
     height: auto;
     margin-right: 20px;
-    border: 2px solid #000;
-    border-radius: 15px;
+    border-radius: 35px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8);
+    margin-bottom:30px;
 }
 
-.toyInfo h2 {
-    font-weight: bold;
-    font-size: 28px;
-    margin-bottom: 10px;
-}
 
-.toyInfo p {
-    font-size: 16px;
+
+.name {
+	padding-left:10px;
+    font-size: 30px;
+    color: var(--fundoAzul);
     margin-bottom: 10px;
 }
 
 .brand {
-    font-size: 18px;
+	padding-left:20px;
+    font-size: 20px;
     color: #555;
     margin-bottom: 10px;
 }
 
 .price {
     font-weight: bold;
-    font-size: 24px;
-    color: #007bff;
+    font-size: 26px;
+    color: var(--Azul);
     margin-bottom: 10px;
 }
 
+.buy {
+    background: none;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    box-shadow: none;
+	font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    background-color:var(--fundoAzul);
+    color: 	var(--Branco);
+    transition:0.4s;
+     font-size: 24px;
+     border-radius:35px;
+     width:150px;
+     height:48px;
+    margin-bottom:20px;
+}
+
+.buy:hover{
+    color: var(--Branco);
+    background-color: var(--Azul);
+    transform: scale(1.1);
+}
+
+.buy:active{
+	transform:scale(0.9);
+}
+
 .description {
+	font-weight:600;
+	font-size:20px;
     margin-bottom: 20px;
 }
 
 .details {
     margin-bottom: 20px;
+    font-size:18px;
 }
